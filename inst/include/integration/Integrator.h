@@ -534,10 +534,28 @@ private:
 
         // Midpoint of the interval.
         const Scalar center = (lowerLimit + upperLimit) * Scalar(.5);
-        const Scalar fCenter = f(center);
 
         DenseIndex size1 = weightsGaussKronrod.size() - 1;
         DenseIndex size2 = weightsGauss.size() - 1;
+
+        // Points to be evaluated.
+        const DenseIndex nAbscissa = std::max(2 * size2, 2 * (size1 - size2 - 1) - 1) + 1;
+        const DenseIndex centerInd = nAbscissa;
+        std::vector<Scalar> points(2 * nAbscissa + 1);
+        points[centerInd] = center;
+
+        for (DenseIndex j = 0; j < nAbscissa; ++j)
+        {
+            const Scalar abscissa = halfLength * abscissaeGaussKronrod[j];
+            points[centerInd - j - 1] = center - abscissa;
+            points[centerInd + j + 1] = center + abscissa;
+        }
+
+        // Evaluate points.
+        f(points);
+        std::vector<Scalar>& fPoints = points;  // Alias of points
+
+        const Scalar fCenter = fPoints[centerInd];
 
         Eigen::Array<Scalar, numKronrodRows - 1, 1> f1Array;
         Eigen::Array<Scalar, numKronrodRows - 1, 1> f2Array;
@@ -562,10 +580,9 @@ private:
         for (DenseIndex j = 1; j < weightsGaussKronrod.size() - weightsGauss.size(); ++j)
         {
             const DenseIndex jj = j * 2 - 1;
-            const Scalar abscissa = halfLength * abscissaeGaussKronrod[jj];
 
-            const Scalar f1 = f(center - abscissa);
-            const Scalar f2 = f(center + abscissa);
+            const Scalar f1 = fPoints[centerInd - jj - 1];
+            const Scalar f2 = fPoints[centerInd + jj + 1];
 
             f1Array[jj] = f1;
             f2Array[jj] = f2;
@@ -581,10 +598,8 @@ private:
         {
             const DenseIndex jj = j * 2;
 
-            const Scalar abscissa = halfLength * abscissaeGaussKronrod[jj];
-
-            const Scalar f1 = f(center - abscissa);
-            const Scalar f2 = f(center + abscissa);
+            const Scalar f1 = fPoints[centerInd - jj - 1];
+            const Scalar f2 = fPoints[centerInd + jj + 1];
 
             f1Array[jj] = f1;
             f2Array[jj] = f2;
