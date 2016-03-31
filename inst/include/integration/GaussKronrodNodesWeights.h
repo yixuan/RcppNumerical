@@ -7,7 +7,7 @@
 #ifndef EIGEN_QUADRATURE_KRONROD_H
 #define EIGEN_QUADRATURE_KRONROD_H
 
-namespace Eigen
+namespace Numer
 {
 
     /**
@@ -72,65 +72,65 @@ namespace Eigen
     class QuadratureKronrod
     {
     public:
-        static Array<Scalar, 8, 1> abscissaeGaussKronrod15;
-        static Array<Scalar, 8, 1> weightsGaussKronrod15;
-        static Array<Scalar, 4, 1> abscissaeGauss15;
-        static Array<Scalar, 4, 1> weightsGauss15;
+        static Eigen::Array<Scalar, 8, 1> abscissaeGaussKronrod15;
+        static Eigen::Array<Scalar, 8, 1> weightsGaussKronrod15;
+        static Eigen::Array<Scalar, 4, 1> abscissaeGauss15;
+        static Eigen::Array<Scalar, 4, 1> weightsGauss15;
 
-        static Array<Scalar, 11, 1> abscissaeGaussKronrod21;
-        static Array<Scalar, 11, 1> weightsGaussKronrod21;
-        static Array<Scalar, 5, 1> abscissaeGauss21;
-        static Array<Scalar, 5, 1> weightsGauss21;
+        static Eigen::Array<Scalar, 11, 1> abscissaeGaussKronrod21;
+        static Eigen::Array<Scalar, 11, 1> weightsGaussKronrod21;
+        static Eigen::Array<Scalar, 5, 1> abscissaeGauss21;
+        static Eigen::Array<Scalar, 5, 1> weightsGauss21;
 
-        static Array<Scalar, 16, 1> abscissaeGaussKronrod31;
-        static Array<Scalar, 16, 1> weightsGaussKronrod31;
-        static Array<Scalar, 8, 1> abscissaeGauss31;
-        static Array<Scalar, 8, 1> weightsGauss31;
+        static Eigen::Array<Scalar, 16, 1> abscissaeGaussKronrod31;
+        static Eigen::Array<Scalar, 16, 1> weightsGaussKronrod31;
+        static Eigen::Array<Scalar, 8, 1> abscissaeGauss31;
+        static Eigen::Array<Scalar, 8, 1> weightsGauss31;
 
-        static Array<Scalar, 21, 1> abscissaeGaussKronrod41;
-        static Array<Scalar, 21, 1> weightsGaussKronrod41;
-        static Array<Scalar, 10, 1> abscissaeGauss41;
-        static Array<Scalar, 10, 1> weightsGauss41;
+        static Eigen::Array<Scalar, 21, 1> abscissaeGaussKronrod41;
+        static Eigen::Array<Scalar, 21, 1> weightsGaussKronrod41;
+        static Eigen::Array<Scalar, 10, 1> abscissaeGauss41;
+        static Eigen::Array<Scalar, 10, 1> weightsGauss41;
 
-        static Array<Scalar, 26, 1> abscissaeGaussKronrod51;
-        static Array<Scalar, 26, 1> weightsGaussKronrod51;
-        static Array<Scalar, 13, 1> abscissaeGauss51;
-        static Array<Scalar, 13, 1> weightsGauss51;
+        static Eigen::Array<Scalar, 26, 1> abscissaeGaussKronrod51;
+        static Eigen::Array<Scalar, 26, 1> weightsGaussKronrod51;
+        static Eigen::Array<Scalar, 13, 1> abscissaeGauss51;
+        static Eigen::Array<Scalar, 13, 1> weightsGauss51;
 
-        static Array<Scalar, 31, 1> abscissaeGaussKronrod61;
-        static Array<Scalar, 31, 1> weightsGaussKronrod61;
-        static Array<Scalar, 15, 1> abscissaeGauss61;
-        static Array<Scalar, 15, 1> weightsGauss61;
+        static Eigen::Array<Scalar, 31, 1> abscissaeGaussKronrod61;
+        static Eigen::Array<Scalar, 31, 1> weightsGaussKronrod61;
+        static Eigen::Array<Scalar, 15, 1> abscissaeGauss61;
+        static Eigen::Array<Scalar, 15, 1> weightsGauss61;
 
-        static Array<Scalar, 36, 1> abscissaeGaussKronrod71;
-        static Array<Scalar, 36, 1> weightsGaussKronrod71;
-        static Array<Scalar, 18, 1> abscissaeGauss71;
-        static Array<Scalar, 18, 1> weightsGauss71;
+        static Eigen::Array<Scalar, 36, 1> abscissaeGaussKronrod71;
+        static Eigen::Array<Scalar, 36, 1> weightsGaussKronrod71;
+        static Eigen::Array<Scalar, 18, 1> abscissaeGauss71;
+        static Eigen::Array<Scalar, 18, 1> weightsGauss71;
 
-        static Array<Scalar, 41, 1> abscissaeGaussKronrod81;
-        static Array<Scalar, 41, 1> weightsGaussKronrod81;
-        static Array<Scalar, 20, 1> abscissaeGauss81;
-        static Array<Scalar, 20, 1> weightsGauss81;
+        static Eigen::Array<Scalar, 41, 1> abscissaeGaussKronrod81;
+        static Eigen::Array<Scalar, 41, 1> weightsGaussKronrod81;
+        static Eigen::Array<Scalar, 20, 1> abscissaeGauss81;
+        static Eigen::Array<Scalar, 20, 1> weightsGauss81;
 
-        static Array<Scalar, 46, 1> abscissaeGaussKronrod91;
-        static Array<Scalar, 46, 1> weightsGaussKronrod91;
-        static Array<Scalar, 23, 1> abscissaeGauss91;
-        static Array<Scalar, 23, 1> weightsGauss91;
+        static Eigen::Array<Scalar, 46, 1> abscissaeGaussKronrod91;
+        static Eigen::Array<Scalar, 46, 1> weightsGaussKronrod91;
+        static Eigen::Array<Scalar, 23, 1> abscissaeGauss91;
+        static Eigen::Array<Scalar, 23, 1> weightsGauss91;
 
-        static Array<Scalar, 51, 1> abscissaeGaussKronrod101;
-        static Array<Scalar, 51, 1> weightsGaussKronrod101;
-        static Array<Scalar, 25, 1> abscissaeGauss101;
-        static Array<Scalar, 25, 1> weightsGauss101;
+        static Eigen::Array<Scalar, 51, 1> abscissaeGaussKronrod101;
+        static Eigen::Array<Scalar, 51, 1> weightsGaussKronrod101;
+        static Eigen::Array<Scalar, 25, 1> abscissaeGauss101;
+        static Eigen::Array<Scalar, 25, 1> weightsGauss101;
 
-        static Array<Scalar, 61, 1> abscissaeGaussKronrod121;
-        static Array<Scalar, 61, 1> weightsGaussKronrod121;
-        static Array<Scalar, 30, 1> abscissaeGauss121;
-        static Array<Scalar, 30, 1> weightsGauss121;
+        static Eigen::Array<Scalar, 61, 1> abscissaeGaussKronrod121;
+        static Eigen::Array<Scalar, 61, 1> weightsGaussKronrod121;
+        static Eigen::Array<Scalar, 30, 1> abscissaeGauss121;
+        static Eigen::Array<Scalar, 30, 1> weightsGauss121;
 
-        static Array<Scalar, 101, 1> abscissaeGaussKronrod201;
-        static Array<Scalar, 101, 1> weightsGaussKronrod201;
-        static Array<Scalar, 50, 1> abscissaeGauss201;
-        static Array<Scalar, 50, 1> weightsGauss201;
+        static Eigen::Array<Scalar, 101, 1> abscissaeGaussKronrod201;
+        static Eigen::Array<Scalar, 101, 1> weightsGaussKronrod201;
+        static Eigen::Array<Scalar, 50, 1> abscissaeGauss201;
+        static Eigen::Array<Scalar, 50, 1> weightsGauss201;
 
 #ifdef EIGEN_HAS_MPREAL_CXX11_TGAMMA
 
@@ -157,8 +157,8 @@ namespace Eigen
         }
 
         template <int N>
-        static void computeForRule(Array<Scalar, N+1, 1>& kronrodAbscissae, Array<Scalar, N+1, 1>& kronrodWeights,
-                                   Array<Scalar, (N+1)/2, 1>& gaussAbscissae, Array<Scalar, (N+1)/2, 1>& gaussWeights)
+        static void computeForRule(Eigen::Array<Scalar, N+1, 1>& kronrodAbscissae, Eigen::Array<Scalar, N+1, 1>& kronrodWeights,
+                                   Eigen::Array<Scalar, (N+1)/2, 1>& gaussAbscissae, Eigen::Array<Scalar, (N+1)/2, 1>& gaussWeights)
         {
             Eigen::Array<Scalar, Eigen::Dynamic, 1> xGK;
             Eigen::Array<Scalar, Eigen::Dynamic, 1> wGK;
@@ -186,8 +186,8 @@ namespace Eigen
 
 //Nodes and Weights - Rule 15
 template <typename Scalar>
-Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod15 =
-  (Array<Scalar, 8, 1>() <<
+Eigen::Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod15 =
+  (Eigen::Array<Scalar, 8, 1>() <<
     0.99145537112081263920685469752632851664204433837033,
     0.94910791234275852452618968404785126240077093767062,
     0.86486442335976907278971278864092620121097230707409,
@@ -199,8 +199,8 @@ Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod15 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod15 =
-  (Array<Scalar, 8, 1>() <<
+Eigen::Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod15 =
+  (Eigen::Array<Scalar, 8, 1>() <<
     0.02293532201052922496373200805896959199356081127575,
     0.06309209262997855329070066318920428666507115721155,
     0.10479001032225018383987632254151801744375665421383,
@@ -212,8 +212,8 @@ Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod15 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 4, 1> QuadratureKronrod<Scalar>::abscissaeGauss15 =
-  (Array<Scalar, 4, 1>() <<
+Eigen::Array<Scalar, 4, 1> QuadratureKronrod<Scalar>::abscissaeGauss15 =
+  (Eigen::Array<Scalar, 4, 1>() <<
     0.94910791234275852452618968404785126240077093767062,
     0.74153118559939443986386477328078840707414764714139,
     0.40584515137739716690660641207696146334738201409937,
@@ -221,8 +221,8 @@ Array<Scalar, 4, 1> QuadratureKronrod<Scalar>::abscissaeGauss15 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 4, 1> QuadratureKronrod<Scalar>::weightsGauss15 =
-  (Array<Scalar, 4, 1>() <<
+Eigen::Array<Scalar, 4, 1> QuadratureKronrod<Scalar>::weightsGauss15 =
+  (Eigen::Array<Scalar, 4, 1>() <<
     0.12948496616886969327061143267908201832858740225995,
     0.27970539148927666790146777142377958248692506522660,
     0.38183005050511894495036977548897513387836508353386,
@@ -232,8 +232,8 @@ Array<Scalar, 4, 1> QuadratureKronrod<Scalar>::weightsGauss15 =
 
 //Nodes and Weights - Rule 21
 template <typename Scalar>
-Array<Scalar, 11, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod21 =
-  (Array<Scalar, 11, 1>() <<
+Eigen::Array<Scalar, 11, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod21 =
+  (Eigen::Array<Scalar, 11, 1>() <<
     0.99565716302580808073552728068900284792126058721948,
     0.97390652851717172007796401208445205342826994669238,
     0.93015749135570822600120718005950834622516790998194,
@@ -248,8 +248,8 @@ Array<Scalar, 11, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod21 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 11, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod21 =
-  (Array<Scalar, 11, 1>() <<
+Eigen::Array<Scalar, 11, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod21 =
+  (Eigen::Array<Scalar, 11, 1>() <<
     0.01169463886737187427806439606219204839621733248193,
     0.03255816230796472747881897245938976061738893984566,
     0.05475589657435199603138130024458017637372111405833,
@@ -264,8 +264,8 @@ Array<Scalar, 11, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod21 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 5, 1> QuadratureKronrod<Scalar>::abscissaeGauss21 =
-  (Array<Scalar, 5, 1>() <<
+Eigen::Array<Scalar, 5, 1> QuadratureKronrod<Scalar>::abscissaeGauss21 =
+  (Eigen::Array<Scalar, 5, 1>() <<
     0.97390652851717172007796401208445205342826994669238,
     0.86506336668898451073209668842349304852754301496533,
     0.67940956829902440623432736511487357576929471183481,
@@ -274,8 +274,8 @@ Array<Scalar, 5, 1> QuadratureKronrod<Scalar>::abscissaeGauss21 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 5, 1> QuadratureKronrod<Scalar>::weightsGauss21 =
-  (Array<Scalar, 5, 1>() <<
+Eigen::Array<Scalar, 5, 1> QuadratureKronrod<Scalar>::weightsGauss21 =
+  (Eigen::Array<Scalar, 5, 1>() <<
     0.06667134430868813759356880989333179285786483432016,
     0.14945134915058059314577633965769733240255663966943,
     0.21908636251598204399553493422816319245877187052268,
@@ -286,8 +286,8 @@ Array<Scalar, 5, 1> QuadratureKronrod<Scalar>::weightsGauss21 =
 
 //Nodes and Weights - Rule 31
 template <typename Scalar>
-Array<Scalar, 16, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod31 =
-  (Array<Scalar, 16, 1>() <<
+Eigen::Array<Scalar, 16, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod31 =
+  (Eigen::Array<Scalar, 16, 1>() <<
     0.99800229869339706028517284015227120907340644231556,
     0.98799251802048542848956571858661258114697281712376,
     0.96773907567913913425734797878433722528335733730013,
@@ -307,8 +307,8 @@ Array<Scalar, 16, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod31 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 16, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod31 =
-  (Array<Scalar, 16, 1>() <<
+Eigen::Array<Scalar, 16, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod31 =
+  (Eigen::Array<Scalar, 16, 1>() <<
     0.00537747987292334898779205143012764981830804024313,
     0.01500794732931612253837476307580726809463943643739,
     0.02546084732671532018687400101965335939727174504686,
@@ -328,8 +328,8 @@ Array<Scalar, 16, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod31 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::abscissaeGauss31 =
-  (Array<Scalar, 8, 1>() <<
+Eigen::Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::abscissaeGauss31 =
+  (Eigen::Array<Scalar, 8, 1>() <<
     0.98799251802048542848956571858661258114697281712376,
     0.93727339240070590430775894771020947124399627351530,
     0.84820658341042721620064832077421685136625617473699,
@@ -341,8 +341,8 @@ Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::abscissaeGauss31 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::weightsGauss31 =
-  (Array<Scalar, 8, 1>() <<
+Eigen::Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::weightsGauss31 =
+  (Eigen::Array<Scalar, 8, 1>() <<
     0.03075324199611726835462839357720441772174814483343,
     0.07036604748810812470926741645066733846670803275433,
     0.10715922046717193501186954668586930341554371575810,
@@ -356,8 +356,8 @@ Array<Scalar, 8, 1> QuadratureKronrod<Scalar>::weightsGauss31 =
 
 //Nodes and Weights - Rule 41
 template <typename Scalar>
-Array<Scalar, 21, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod41 =
-  (Array<Scalar, 21, 1>() <<
+Eigen::Array<Scalar, 21, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod41 =
+  (Eigen::Array<Scalar, 21, 1>() <<
     0.99885903158827766383831557654586300999957020432630,
     0.99312859918509492478612238847132027822264713090166,
     0.98150787745025025919334299472021694456725093981024,
@@ -382,8 +382,8 @@ Array<Scalar, 21, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod41 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 21, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod41 =
-  (Array<Scalar, 21, 1>() <<
+Eigen::Array<Scalar, 21, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod41 =
+  (Eigen::Array<Scalar, 21, 1>() <<
     0.00307358371852053150121829324603098748803350468825,
     0.00860026985564294219866178795010234725212892276671,
     0.01462616925697125298378796030886835616388105016225,
@@ -408,8 +408,8 @@ Array<Scalar, 21, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod41 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 10, 1> QuadratureKronrod<Scalar>::abscissaeGauss41 =
-  (Array<Scalar, 10, 1>() <<
+Eigen::Array<Scalar, 10, 1> QuadratureKronrod<Scalar>::abscissaeGauss41 =
+  (Eigen::Array<Scalar, 10, 1>() <<
     0.99312859918509492478612238847132027822264713090166,
     0.96397192727791379126766613119727722191206032780619,
     0.91223442825132590586775244120329811304918479742369,
@@ -423,8 +423,8 @@ Array<Scalar, 10, 1> QuadratureKronrod<Scalar>::abscissaeGauss41 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 10, 1> QuadratureKronrod<Scalar>::weightsGauss41 =
-  (Array<Scalar, 10, 1>() <<
+Eigen::Array<Scalar, 10, 1> QuadratureKronrod<Scalar>::weightsGauss41 =
+  (Eigen::Array<Scalar, 10, 1>() <<
     0.01761400713915211831186196235185281636214310554334,
     0.04060142980038694133103995227493210987909063998995,
     0.06267204833410906356950653518704160635160107657844,
@@ -440,8 +440,8 @@ Array<Scalar, 10, 1> QuadratureKronrod<Scalar>::weightsGauss41 =
 
 //Nodes and Weights - Rule 51
 template <typename Scalar>
-Array<Scalar, 26, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod51 =
-  (Array<Scalar, 26, 1>() <<
+Eigen::Array<Scalar, 26, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod51 =
+  (Eigen::Array<Scalar, 26, 1>() <<
     0.99926210499260983419345748654034059370452496042280,
     0.99555696979049809790878494689390161725756264940481,
     0.98803579453407724763733101457740622707248415209161,
@@ -471,8 +471,8 @@ Array<Scalar, 26, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod51 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 26, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod51 =
-  (Array<Scalar, 26, 1>() <<
+Eigen::Array<Scalar, 26, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod51 =
+  (Eigen::Array<Scalar, 26, 1>() <<
     0.00198738389233031592650785188284340988942998042825,
     0.00556193213535671375804023690106552207017692954963,
     0.00947397338617415160720771052365532387164532684837,
@@ -502,8 +502,8 @@ Array<Scalar, 26, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod51 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 13, 1> QuadratureKronrod<Scalar>::abscissaeGauss51 =
-  (Array<Scalar, 13, 1>() <<
+Eigen::Array<Scalar, 13, 1> QuadratureKronrod<Scalar>::abscissaeGauss51 =
+  (Eigen::Array<Scalar, 13, 1>() <<
     0.99555696979049809790878494689390161725756264940481,
     0.97666392145951751149831538647959406774537055531441,
     0.94297457122897433941401116965847053190520157060899,
@@ -520,8 +520,8 @@ Array<Scalar, 13, 1> QuadratureKronrod<Scalar>::abscissaeGauss51 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 13, 1> QuadratureKronrod<Scalar>::weightsGauss51 =
-  (Array<Scalar, 13, 1>() <<
+Eigen::Array<Scalar, 13, 1> QuadratureKronrod<Scalar>::weightsGauss51 =
+  (Eigen::Array<Scalar, 13, 1>() <<
     0.01139379850102628794790296411323477360332052629291,
     0.02635498661503213726190181529529914493596328170332,
     0.04093915670130631265562348771164595366084578336410,
@@ -540,8 +540,8 @@ Array<Scalar, 13, 1> QuadratureKronrod<Scalar>::weightsGauss51 =
 
 //Nodes and Weights - Rule 61
 template <typename Scalar>
-Array<Scalar, 31, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod61 =
-  (Array<Scalar, 31, 1>() <<
+Eigen::Array<Scalar, 31, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod61 =
+  (Eigen::Array<Scalar, 31, 1>() <<
     0.99948441005049063757132589570581081946887394701851,
     0.99689348407464954027163005091869528334088203811775,
     0.99163099687040459485862836610948572485050033374616,
@@ -576,8 +576,8 @@ Array<Scalar, 31, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod61 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 31, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod61 =
-  (Array<Scalar, 31, 1>() <<
+Eigen::Array<Scalar, 31, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod61 =
+  (Eigen::Array<Scalar, 31, 1>() <<
     0.00138901369867700762455159122675969968104884129196,
     0.00389046112709988405126720184451550327851514298489,
     0.00663070391593129217331982636975016813362838821778,
@@ -612,8 +612,8 @@ Array<Scalar, 31, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod61 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 15, 1> QuadratureKronrod<Scalar>::abscissaeGauss61 =
-  (Array<Scalar, 15, 1>() <<
+Eigen::Array<Scalar, 15, 1> QuadratureKronrod<Scalar>::abscissaeGauss61 =
+  (Eigen::Array<Scalar, 15, 1>() <<
     0.99689348407464954027163005091869528334088203811775,
     0.98366812327974720997003258160566280194031785470971,
     0.96002186496830751221687102558179766293035921740392,
@@ -632,8 +632,8 @@ Array<Scalar, 15, 1> QuadratureKronrod<Scalar>::abscissaeGauss61 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 15, 1> QuadratureKronrod<Scalar>::weightsGauss61 =
-  (Array<Scalar, 15, 1>() <<
+Eigen::Array<Scalar, 15, 1> QuadratureKronrod<Scalar>::weightsGauss61 =
+  (Eigen::Array<Scalar, 15, 1>() <<
     0.00796819249616660561546588347467362245048069658715,
     0.01846646831109095914230213191204726909620653396818,
     0.02878470788332336934971917961129204363958889454629,
@@ -654,8 +654,8 @@ Array<Scalar, 15, 1> QuadratureKronrod<Scalar>::weightsGauss61 =
 
 //Nodes and Weights - Rule 71
 template <typename Scalar>
-Array<Scalar, 36, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod71 =
-  (Array<Scalar, 36, 1>() <<
+Eigen::Array<Scalar, 36, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod71 =
+  (Eigen::Array<Scalar, 36, 1>() <<
     0.99961929856058782041953501908431046312122344098794,
     0.99770656909960029726016313931209472519327463717101,
     0.99382029303890921225840752201784028500756549314159,
@@ -695,8 +695,8 @@ Array<Scalar, 36, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod71 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 36, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod71 =
-  (Array<Scalar, 36, 1>() <<
+Eigen::Array<Scalar, 36, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod71 =
+  (Eigen::Array<Scalar, 36, 1>() <<
     0.00102550911074666801006956437298132913634921030706,
     0.00287226001447070188175126346596935559720130883926,
     0.00489809089031614709134489995355345719632799389497,
@@ -736,8 +736,8 @@ Array<Scalar, 36, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod71 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 18, 1> QuadratureKronrod<Scalar>::abscissaeGauss71 =
-  (Array<Scalar, 18, 1>() <<
+Eigen::Array<Scalar, 18, 1> QuadratureKronrod<Scalar>::abscissaeGauss71 =
+  (Eigen::Array<Scalar, 18, 1>() <<
     0.99770656909960029726016313931209472519327463717101,
     0.98793576444385149803511708918548598531300829571417,
     0.97043761603922983321507048258477014252488123931238,
@@ -759,8 +759,8 @@ Array<Scalar, 18, 1> QuadratureKronrod<Scalar>::abscissaeGauss71 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 18, 1> QuadratureKronrod<Scalar>::weightsGauss71 =
-  (Array<Scalar, 18, 1>() <<
+Eigen::Array<Scalar, 18, 1> QuadratureKronrod<Scalar>::weightsGauss71 =
+  (Eigen::Array<Scalar, 18, 1>() <<
     0.00588343342044308497575389624011262403075431779823,
     0.01365082834836149226640400292051638397399403784142,
     0.02132297991148358088343798396620507832380964471994,
@@ -784,8 +784,8 @@ Array<Scalar, 18, 1> QuadratureKronrod<Scalar>::weightsGauss71 =
 
 //Nodes and Weights - Rule 81
 template <typename Scalar>
-Array<Scalar, 41, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod81 =
-  (Array<Scalar, 41, 1>() <<
+Eigen::Array<Scalar, 41, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod81 =
+  (Eigen::Array<Scalar, 41, 1>() <<
     0.99970755925870001652122454213597471358259546611434,
     0.99823770971055920034962270242058649233577038159505,
     0.99525057344607275036560954016723640396135078520144,
@@ -830,8 +830,8 @@ Array<Scalar, 41, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod81 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 41, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod81 =
-  (Array<Scalar, 41, 1>() <<
+Eigen::Array<Scalar, 41, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod81 =
+  (Eigen::Array<Scalar, 41, 1>() <<
     0.00078786332389437149872027155489686731646438112543,
     0.00220748573572677796216880922531121147539447921678,
     0.00376522867934192207419437277688852248174719104712,
@@ -876,8 +876,8 @@ Array<Scalar, 41, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod81 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 20, 1> QuadratureKronrod<Scalar>::abscissaeGauss81 =
-  (Array<Scalar, 20, 1>() <<
+Eigen::Array<Scalar, 20, 1> QuadratureKronrod<Scalar>::abscissaeGauss81 =
+  (Eigen::Array<Scalar, 20, 1>() <<
     0.99823770971055920034962270242058649233577038159505,
     0.99072623869945700645305435222137215496222208135109,
     0.97725994998377426266337028371290380697866793203799,
@@ -901,8 +901,8 @@ Array<Scalar, 20, 1> QuadratureKronrod<Scalar>::abscissaeGauss81 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 20, 1> QuadratureKronrod<Scalar>::weightsGauss81 =
-  (Array<Scalar, 20, 1>() <<
+Eigen::Array<Scalar, 20, 1> QuadratureKronrod<Scalar>::weightsGauss81 =
+  (Eigen::Array<Scalar, 20, 1>() <<
     0.00452127709853319125847173287818533272783111019971,
     0.01049828453115281361474217106727965237679262131580,
     0.01642105838190788871286348488236392729234229334696,
@@ -928,8 +928,8 @@ Array<Scalar, 20, 1> QuadratureKronrod<Scalar>::weightsGauss81 =
 
 //Nodes and Weights - Rule 91
 template <typename Scalar>
-Array<Scalar, 46, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod91 =
-  (Array<Scalar, 46, 1>() <<
+Eigen::Array<Scalar, 46, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod91 =
+  (Eigen::Array<Scalar, 46, 1>() <<
     0.99976825819812844184050501808521584761778222189509,
     0.99860364518193663815654767690082054809228852721448,
     0.99623648400262042934511873220069067464977892521152,
@@ -979,8 +979,8 @@ Array<Scalar, 46, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod91 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 46, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod91 =
-  (Array<Scalar, 46, 1>() <<
+Eigen::Array<Scalar, 46, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod91 =
+  (Eigen::Array<Scalar, 46, 1>() <<
     0.00062429185718321579857663066059662918012169021712,
     0.00174909651748535281285516187173085451060602294185,
     0.00298417191546646641998503281623961554312494201463,
@@ -1030,8 +1030,8 @@ Array<Scalar, 46, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod91 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 23, 1> QuadratureKronrod<Scalar>::abscissaeGauss91 =
-  (Array<Scalar, 23, 1>() <<
+Eigen::Array<Scalar, 23, 1> QuadratureKronrod<Scalar>::abscissaeGauss91 =
+  (Eigen::Array<Scalar, 23, 1>() <<
     0.99860364518193663815654767690082054809228852721448,
     0.99264999844720374174861712059773534497500164330364,
     0.98196871503454056823931847363434148153836524922046,
@@ -1058,8 +1058,8 @@ Array<Scalar, 23, 1> QuadratureKronrod<Scalar>::abscissaeGauss91 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 23, 1> QuadratureKronrod<Scalar>::weightsGauss91 =
-  (Array<Scalar, 23, 1>() <<
+Eigen::Array<Scalar, 23, 1> QuadratureKronrod<Scalar>::weightsGauss91 =
+  (Eigen::Array<Scalar, 23, 1>() <<
     0.00358266315528355893114302865935139257058563635818,
     0.00832318929621824164573585312223385375615793129295,
     0.01303110499158278432063108246968692602714117158264,
@@ -1088,8 +1088,8 @@ Array<Scalar, 23, 1> QuadratureKronrod<Scalar>::weightsGauss91 =
 
 //Nodes and Weights - Rule 101
 template <typename Scalar>
-Array<Scalar, 51, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod101 =
-  (Array<Scalar, 51, 1>() <<
+Eigen::Array<Scalar, 51, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod101 =
+  (Eigen::Array<Scalar, 51, 1>() <<
     0.99981190136436471898752764191979778490900714786428,
     0.99886640442007105018545944497421850599624351290408,
     0.99694438701887617830552521284551574074542656874602,
@@ -1144,8 +1144,8 @@ Array<Scalar, 51, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod101 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 51, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod101 =
-  (Array<Scalar, 51, 1>() <<
+Eigen::Array<Scalar, 51, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod101 =
+  (Eigen::Array<Scalar, 51, 1>() <<
     0.00050676166803489136800323005679418875182879376563,
     0.00142011023816635705848924160910481934652645245411,
     0.00242310374582057327186801995970143275616529077528,
@@ -1200,8 +1200,8 @@ Array<Scalar, 51, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod101 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 25, 1> QuadratureKronrod<Scalar>::abscissaeGauss101 =
-  (Array<Scalar, 25, 1>() <<
+Eigen::Array<Scalar, 25, 1> QuadratureKronrod<Scalar>::abscissaeGauss101 =
+  (Eigen::Array<Scalar, 25, 1>() <<
     0.99886640442007105018545944497421850599624351290408,
     0.99403196943209071258510820042069472815747797106832,
     0.98535408404800588230900962563248940401559263094541,
@@ -1230,8 +1230,8 @@ Array<Scalar, 25, 1> QuadratureKronrod<Scalar>::abscissaeGauss101 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 25, 1> QuadratureKronrod<Scalar>::weightsGauss101 =
-  (Array<Scalar, 25, 1>() <<
+Eigen::Array<Scalar, 25, 1> QuadratureKronrod<Scalar>::weightsGauss101 =
+  (Eigen::Array<Scalar, 25, 1>() <<
     0.00290862255315514095840072434285548080667299645995,
     0.00675979919574540150277887817798503180187383240647,
     0.01059054838365096926356968149924102233940181908646,
@@ -1262,8 +1262,8 @@ Array<Scalar, 25, 1> QuadratureKronrod<Scalar>::weightsGauss101 =
 
 //Nodes and Weights - Rule 121
 template <typename Scalar>
-Array<Scalar, 61, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod121 =
-  (Array<Scalar, 61, 1>() <<
+Eigen::Array<Scalar, 61, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod121 =
+  (Eigen::Array<Scalar, 61, 1>() <<
     0.99986894039735508603454696805483048308252339364253,
     0.99921012322743602203422958579764926639879897871133,
     0.99787067797281103000055449680255041109802834093833,
@@ -1328,8 +1328,8 @@ Array<Scalar, 61, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod121 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 61, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod121 =
-  (Array<Scalar, 61, 1>() <<
+Eigen::Array<Scalar, 61, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod121 =
+  (Eigen::Array<Scalar, 61, 1>() <<
     0.00035309352008476328873302150506396067820554489853,
     0.00098957111594993012002795471522501001707498606076,
     0.00168881658669538272849089285105177845280274177469,
@@ -1394,8 +1394,8 @@ Array<Scalar, 61, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod121 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 30, 1> QuadratureKronrod<Scalar>::abscissaeGauss121 =
-  (Array<Scalar, 30, 1>() <<
+Eigen::Array<Scalar, 30, 1> QuadratureKronrod<Scalar>::abscissaeGauss121 =
+  (Eigen::Array<Scalar, 30, 1>() <<
     0.99921012322743602203422958579764926639879897871133,
     0.99584052511883817387674671337744065277489029497714,
     0.98978789522222171736727898701609604257739315378694,
@@ -1429,8 +1429,8 @@ Array<Scalar, 30, 1> QuadratureKronrod<Scalar>::abscissaeGauss121 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 30, 1> QuadratureKronrod<Scalar>::weightsGauss121 =
-  (Array<Scalar, 30, 1>() <<
+Eigen::Array<Scalar, 30, 1> QuadratureKronrod<Scalar>::weightsGauss121 =
+  (Eigen::Array<Scalar, 30, 1>() <<
     0.00202681196887375849643171020989232469531166822556,
     0.00471272992695356864089482171407723594808497019372,
     0.00738993116334545553151695602208606088222818020623,
@@ -1466,8 +1466,8 @@ Array<Scalar, 30, 1> QuadratureKronrod<Scalar>::weightsGauss121 =
 
 //Nodes and Weights - Rule 201
 template <typename Scalar>
-Array<Scalar, 101, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod201 =
-  (Array<Scalar, 101, 1>() <<
+Eigen::Array<Scalar, 101, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod201 =
+  (Eigen::Array<Scalar, 101, 1>() <<
     0.99995250325234874194558759586872675230201032186296,
     0.99971372677344123367822846934230067671834952730840,
     0.99922816588380125603468689462902570985161537549449,
@@ -1572,8 +1572,8 @@ Array<Scalar, 101, 1> QuadratureKronrod<Scalar>::abscissaeGaussKronrod201 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 101, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod201 =
-  (Array<Scalar, 101, 1>() <<
+Eigen::Array<Scalar, 101, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod201 =
+  (Eigen::Array<Scalar, 101, 1>() <<
     0.00012796430957024721771296604719777847195024888314,
     0.00035867672428027546451819698699002695000334366552,
     0.00061229953852751686968468056548070834614262353518,
@@ -1678,8 +1678,8 @@ Array<Scalar, 101, 1> QuadratureKronrod<Scalar>::weightsGaussKronrod201 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 50, 1> QuadratureKronrod<Scalar>::abscissaeGauss201 =
-  (Array<Scalar, 50, 1>() <<
+Eigen::Array<Scalar, 50, 1> QuadratureKronrod<Scalar>::abscissaeGauss201 =
+  (Eigen::Array<Scalar, 50, 1>() <<
     0.99971372677344123367822846934230067671834952730840,
     0.99849195063959581840016335918634916230485485042057,
     0.99629513473312514918613173224113103543643128814043,
@@ -1733,8 +1733,8 @@ Array<Scalar, 50, 1> QuadratureKronrod<Scalar>::abscissaeGauss201 =
     ).finished();
 
 template <typename Scalar>
-Array<Scalar, 50, 1> QuadratureKronrod<Scalar>::weightsGauss201 =
-  (Array<Scalar, 50, 1>() <<
+Eigen::Array<Scalar, 50, 1> QuadratureKronrod<Scalar>::weightsGauss201 =
+  (Eigen::Array<Scalar, 50, 1>() <<
     0.00073463449050567173040632065833033639067047356248,
     0.00170939265351810523952935837149119524373138549146,
     0.00268392537155348241943959042900112008193111495100,

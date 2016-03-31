@@ -8,7 +8,7 @@
 #ifndef EIGEN_INTEGRATOR_H
 #define EIGEN_INTEGRATOR_H
 
-namespace Eigen
+namespace Numer
 {
 
 /**
@@ -27,6 +27,7 @@ class Integrator
 {
 public:
     typedef Scalar_ Scalar;
+    typedef Eigen::DenseIndex DenseIndex;
 
     /**
      * \brief The local Gauss-Kronrod quadrature rule to use.
@@ -90,7 +91,7 @@ public:
     Scalar quadratureAdaptive(
         const FunctionType& f, const Scalar lowerLimit, const Scalar upperLimit,
         const Scalar desiredAbsoluteError = Scalar(0.), const Scalar desiredRelativeError = Scalar(0.),
-        const QuadratureRule quadratureRule = Eigen::Integrator<Scalar>::QuadratureRule(1))
+        const QuadratureRule quadratureRule = Integrator<Scalar>::QuadratureRule(1))
     {
         if ((desiredAbsoluteError <= Scalar(0.) && desiredRelativeError < Eigen::NumTraits<Scalar>::epsilon())
             || m_maxSubintervals < 1)
@@ -522,9 +523,9 @@ private:
 
     template <typename FunctionType, int numKronrodRows, int numGaussRows, int alignment>
     Scalar quadratureKronrodHelper(
-        Array<Scalar, numKronrodRows, 1, alignment, numKronrodRows, 1> abscissaeGaussKronrod,
-        Array<Scalar, numKronrodRows, 1, alignment, numKronrodRows, 1> weightsGaussKronrod,
-        Array<Scalar, numGaussRows, 1, alignment, numGaussRows, 1> weightsGauss, const FunctionType& f, const Scalar lowerLimit,
+        Eigen::Array<Scalar, numKronrodRows, 1, alignment, numKronrodRows, 1> abscissaeGaussKronrod,
+        Eigen::Array<Scalar, numKronrodRows, 1, alignment, numKronrodRows, 1> weightsGaussKronrod,
+        Eigen::Array<Scalar, numGaussRows, 1, alignment, numGaussRows, 1> weightsGauss, const FunctionType& f, const Scalar lowerLimit,
         const Scalar upperLimit, Scalar& estimatedError, Scalar& absIntegral, Scalar& absDiffIntegral,
         const QuadratureRule quadratureRule)
     {
@@ -538,8 +539,8 @@ private:
         DenseIndex size1 = weightsGaussKronrod.size() - 1;
         DenseIndex size2 = weightsGauss.size() - 1;
 
-        Array<Scalar, numKronrodRows - 1, 1> f1Array;
-        Array<Scalar, numKronrodRows - 1, 1> f2Array;
+        Eigen::Array<Scalar, numKronrodRows - 1, 1> f1Array;
+        Eigen::Array<Scalar, numKronrodRows - 1, 1> f2Array;
 
         // The result of the Gauss formula.
         Scalar resultGauss;
@@ -636,7 +637,7 @@ private:
      * sequence, with k = m_numSubintervals if m_numSubintervals <= (m_maxSubintervals/2 + 2),
      * otherwise k = m_maxSubintervals + 1 - m_numSubintervals.
      */
-    Array<DenseIndex, Dynamic, 1> m_errorListIndices;
+    Eigen::Array<DenseIndex, Eigen::Dynamic, 1> m_errorListIndices;
 
     /**
      * \brief An Array of dimension m_maxSubintervals for subinterval left endpoints.
@@ -644,7 +645,7 @@ private:
      * The first m_numSubintervals elements are the lower end points of the subintervals in the
      * partition of the given integration range (lowerLimit, upperLimit).
      */
-    Array<Scalar, Dynamic, 1> m_lowerList;
+    Eigen::Array<Scalar, Eigen::Dynamic, 1> m_lowerList;
 
     /**
      * \brief An Array of dimension m_maxSubintervals for subinterval upper endpoints.
@@ -652,14 +653,14 @@ private:
      * The first m_numSubintervals elements are the upper end points of the subintervals in the
      * partition of the given integration range (lowerLimit, upperLimit).
      */
-    Array<Scalar, Dynamic, 1> m_upperList;
+    Eigen::Array<Scalar, Eigen::Dynamic, 1> m_upperList;
 
     /**
      * \brief An Array of dimension m_maxSubintervals for integral approximations.
      *
      * The first m_numSubintervals elements are the integral approximations on the subintervals.
      */
-    Array<Scalar, Dynamic, 1> m_integralList;
+    Eigen::Array<Scalar, Eigen::Dynamic, 1> m_integralList;
 
     /**
      * \brief An Array of dimension m_maxSubintervals for error estimates.
@@ -667,7 +668,7 @@ private:
      * The first m_numSubintervals elements of which are the moduli of the absolute error estimates
      * on the subintervals.
      */
-    Array<Scalar, Dynamic, 1> m_errorList;
+    Eigen::Array<Scalar, Eigen::Dynamic, 1> m_errorList;
 
     /**
     *  \brief Gives an upper bound on the number of subintervals. Must be at least 1.
