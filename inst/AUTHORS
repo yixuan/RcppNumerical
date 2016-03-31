@@ -1,0 +1,8 @@
+The files
+  inst/include/integration/GaussKronrodNodesWeights.h
+  inst/include/integration/Integrator.h
+were modified from library NumericalIntegration
+(https://github.com/tbs1980/NumericalIntegration)
+written by Sreekumar T. Balan, Matt Beall, and Mark Sauder.
+
+Other part of this package was written by Yixuan Qiu.
