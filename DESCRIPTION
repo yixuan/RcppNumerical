@@ -1,6 +1,6 @@
 Package: RcppNumerical
 Type: Package
-Title: 'Rcpp' Integration for Header-Only Numerical Computing Libraries
+Title: 'Rcpp' Integration for Numerical Computing Libraries
 Version: 0.1.0
 Authors@R: c(
     person("Yixuan", "Qiu", , "yixuan.qiu@cos.name", c("aut", "cre")),
@@ -12,8 +12,9 @@ Authors@R: c(
            comment = "Numerical integration library")
     )
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
-Description: A collection of header-only libraries for numerical computing
-    (numerical integration, optmization, etc.) and their integration with 'Rcpp'.
+Description: A collection of open source C++ libraries for numerical computing
+    (numerical integration, optmization, etc.) and their integration with
+    'Rcpp'.
 License: MPL (>= 2)
 LazyData: TRUE
 Imports:
