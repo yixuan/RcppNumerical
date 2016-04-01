@@ -535,30 +535,29 @@ private:
         // Midpoint of the interval.
         const Scalar center = (lowerLimit + upperLimit) * Scalar(.5);
 
-        DenseIndex size1 = weightsGaussKronrod.size() - 1;
-        DenseIndex size2 = weightsGauss.size() - 1;
+        DenseIndex size1 = numKronrodRows - 1;
+        DenseIndex size2 = numGaussRows - 1;
 
         // Points to be evaluated.
-        const DenseIndex nAbscissa = std::max(2 * size2, 2 * (size1 - size2 - 1) - 1) + 1;
-        const DenseIndex centerInd = nAbscissa;
-        std::vector<Scalar> points(2 * nAbscissa + 1);
-        points[centerInd] = center;
-
-        for (DenseIndex j = 0; j < nAbscissa; ++j)
+        std::vector<Scalar> points(2 * size1 + 1);
+        // points[0] = center
+        // points[1], points[2], ..., points[size1]:  center - abscissa
+        // points[size1 + 1], ..., points[2 * size1]: center + abscissa
+        points[0] = center;
+        for (DenseIndex j = 1; j <= size1; ++j)
         {
-            const Scalar abscissa = halfLength * abscissaeGaussKronrod[j];
-            points[centerInd - j - 1] = center - abscissa;
-            points[centerInd + j + 1] = center + abscissa;
+            const Scalar abscissa = halfLength * abscissaeGaussKronrod[j - 1];
+            points[j] = center - abscissa;
+            points[size1 + j] = center + abscissa;
         }
 
         // Evaluate points.
         f(points);
         std::vector<Scalar>& fPoints = points;  // Alias of points
 
-        const Scalar fCenter = fPoints[centerInd];
-
-        Eigen::Array<Scalar, numKronrodRows - 1, 1> f1Array;
-        Eigen::Array<Scalar, numKronrodRows - 1, 1> f2Array;
+        const Scalar fCenter = fPoints[0];
+        Eigen::Map< Eigen::Array<Scalar, numKronrodRows - 1, 1> > f1Array(&fPoints[1],         size1, 1);
+        Eigen::Map< Eigen::Array<Scalar, numKronrodRows - 1, 1> > f2Array(&fPoints[size1 + 1], size1, 1);
 
         // The result of the Gauss formula.
         Scalar resultGauss;
@@ -577,38 +576,7 @@ private:
         using std::abs;
         absIntegral = abs(resultKronrod);
 
-        for (DenseIndex j = 1; j < weightsGaussKronrod.size() - weightsGauss.size(); ++j)
-        {
-            const DenseIndex jj = j * 2 - 1;
-
-            const Scalar f1 = fPoints[centerInd - jj - 1];
-            const Scalar f2 = fPoints[centerInd + jj + 1];
-
-            f1Array[jj] = f1;
-            f2Array[jj] = f2;
-            const Scalar funcSum = f1 + f2;
-
-            resultGauss += weightsGauss[j - 1] * funcSum;
-            resultKronrod += weightsGaussKronrod[jj] * funcSum;
-
-            absIntegral += weightsGaussKronrod[jj] * (abs(f1) + abs(f2));
-        }
-
-        for (DenseIndex j = 0; j < weightsGauss.size(); ++j)
-        {
-            const DenseIndex jj = j * 2;
-
-            const Scalar f1 = fPoints[centerInd - jj - 1];
-            const Scalar f2 = fPoints[centerInd + jj + 1];
-
-            f1Array[jj] = f1;
-            f2Array[jj] = f2;
-            const Scalar funcSum = f1 + f2;
-
-            resultKronrod += weightsGaussKronrod[jj] * funcSum;
-
-            absIntegral += weightsGaussKronrod[jj] * (abs(f1) + abs(f2));
-        }
+        resultKronrod += ((f1Array + f2Array) * weightsGaussKronrod.head(size1)).sum();
 
         // Approximation to the mean value of f over the interval (lowerLimit, upperLimit),
         // i.e. I / (upperLimit - lowerLimit)
@@ -616,9 +584,14 @@ private:
 
         absDiffIntegral = weightsGaussKronrod[size1] * (abs(fCenter - resultMeanKronrod));
 
-        absDiffIntegral += (((f1Array.head(size1) - resultMeanKronrod).abs()
-                            + (f2Array.head(size1) - resultMeanKronrod).abs())
-                            * weightsGaussKronrod.head(size1)).sum();
+        for (DenseIndex j = 0; j < size1; ++j)
+        {
+            if (j % 2)
+                resultGauss += weightsGauss[j / 2] * (f1Array[j] + f2Array[j]);
+
+            absIntegral += weightsGaussKronrod[j] * (abs(f1Array[j]) + abs(f2Array[j]));
+            absDiffIntegral += weightsGaussKronrod[j] * (abs(f1Array[j] - resultMeanKronrod) + abs(f2Array[j] - resultMeanKronrod));
+        }
 
         Scalar result = resultKronrod * halfLength;
         absIntegral *= abs(halfLength);
