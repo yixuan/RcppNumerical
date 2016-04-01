@@ -627,9 +627,9 @@ private:
 
         if (absDiffIntegral != Scalar(0.) && estimatedError != Scalar(0.))
         {
-            using std::pow;
+            const Scalar tmp = estimatedError * Scalar(200.) / absDiffIntegral;
             estimatedError = absDiffIntegral
-                * (std::min)(Scalar(1.), pow((estimatedError * Scalar(200.) / absDiffIntegral), Scalar(1.5)));
+                * (std::min)(Scalar(1.), tmp * std::sqrt(tmp));
         }
 
         if (absIntegral
