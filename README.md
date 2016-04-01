@@ -15,7 +15,8 @@ accomplish such tasks.
 
 The numerical integration code contained in **RcppNumerical** is based
 on the [NumericalIntegration](https://github.com/tbs1980/NumericalIntegration)
-library developed by [Sreekumar Thaithara Balan](https://github.com/tbs1980).
+library developed by [Sreekumar Thaithara Balan](https://github.com/tbs1980),
+[Mark Sauder](https://github.com/mcsauder), and Matt Beall.
 
 To compute integration of a function, first define a functor inherited from
 the `Func` class:
