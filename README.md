@@ -54,14 +54,14 @@ inline double integrate(
 - `lower`, `upper`: Limits of integral.
 - `err_est`: Estimate of the error (output).
 - `err_code`: Error code (output). See `inst/include/integration/Integrator.h`
-Line 676-704.
+[Line 676-704](https://github.com/yixuan/RcppNumerical/blob/master/inst/include/integration/Integrator.h#L676).
 - `subdiv`: Maximum number of subintervals.
 - `eps_abs`, `eps_rel`: Absolute and relative tolerance.
 - `rule`: Integration rule. Possible values are
 `GaussKronrod{15, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 201}`.
 
 See a full example below, which can be compiled using the `Rcpp::sourceCpp`
-function in R.
+function in Rcpp.
 
 ```cpp
 // [[Rcpp::depends(RcppEigen)]]
