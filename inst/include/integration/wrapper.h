@@ -62,16 +62,15 @@ public:
         return Rcpp::as<double>(res);
     }
 
-    void   operator()(std::vector<double>& x) const
+    void   operator()(double* x, const int n) const
     {
-        const int len = x.size();
-        Rcpp::NumericVector xv(len);
-        std::copy(x.begin(), x.end(), xv.begin());
+        Rcpp::NumericVector xv(n);
+        std::copy(x, x + n, xv.begin());
         Rcpp::NumericVector res = fun(xv, args);
-        if(res.length() != len)
+        if(res.length() != n)
             Rcpp::stop("integrand must return a vector of the same length of x");
 
-        std::copy(res.begin(), res.end(), x.begin());
+        std::copy(res.begin(), res.end(), x);
     }
 };
 

@@ -539,7 +539,7 @@ private:
         DenseIndex size2 = numGaussRows - 1;
 
         // Points to be evaluated.
-        std::vector<Scalar> points(2 * size1 + 1);
+        Eigen::Array<Scalar, 2 * numKronrodRows - 1, 1> points;
         // points[0] = center
         // points[1], points[2], ..., points[size1]:  center - abscissa
         // points[size1 + 1], ..., points[2 * size1]: center + abscissa
@@ -552,8 +552,8 @@ private:
         }
 
         // Evaluate points.
-        f(points);
-        std::vector<Scalar>& fPoints = points;  // Alias of points
+        f(points.data(), 2 * numKronrodRows - 1);
+        Eigen::Array<Scalar, 2 * numKronrodRows - 1, 1>& fPoints = points;  // Alias of points
 
         const Scalar fCenter = fPoints[0];
         Eigen::Map< Eigen::Array<Scalar, numKronrodRows - 1, 1> > f1Array(&fPoints[1],         size1, 1);
