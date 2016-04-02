@@ -26,16 +26,16 @@ class Func
 {
 public:
     virtual double operator()(const double& x) const = 0;
-    virtual void   operator()(std::vector<double>& x) const
+    virtual void   operator()(double* x, const int n) const
     {
-        for(std::vector<double>::size_type i = 0; i < x.size(); i++)
+        for(int i = 0; i < n; i++)
             x[i] = this->operator()(x[i]);
     }
 };
 ```
 
 The first function evaluates one point at a time, and the second version
-overwrites each point in the vector by the corresponding function values.
+overwrites each point in the array by the corresponding function values.
 Only the second function will be used by the integration code, but usually it
 is easier to implement the first one.
 
@@ -59,7 +59,8 @@ inline double integrate(
 - `subdiv`: Maximum number of subintervals.
 - `eps_abs`, `eps_rel`: Absolute and relative tolerance.
 - `rule`: Integration rule. Possible values are
-`GaussKronrod{15, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 201}`.
+`GaussKronrod{15, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 201}`. Rules with
+larger values have better accuracy, but may involve more function calls.
 
 See a full example below, which can be compiled using the `Rcpp::sourceCpp`
 function in Rcpp.
