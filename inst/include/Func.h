@@ -7,13 +7,14 @@
 #ifndef FUNC_H
 #define FUNC_H
 
-#include <vector>
+#include <RcppEigen.h>
 
 
 namespace Numer
 {
 
 
+// For numerical integration
 class Func
 {
 public:
@@ -23,6 +24,25 @@ public:
         for(int i = 0; i < n; i++)
             x[i] = this->operator()(x[i]);
     }
+};
+
+
+// Reference to a vector
+typedef Eigen::Ref<Eigen::VectorXd>             Refvec;
+typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
+
+// For optimization that does not require gradient
+class MFunc
+{
+public:
+    virtual double operator()(Constvec& x) const = 0;
+};
+
+// For optimization that requires gradient
+class MFuncGrad: public MFunc
+{
+public:
+    virtual void gradient(Constvec& x, Refvec grad) const = 0;
 };
 
 
