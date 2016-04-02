@@ -39,10 +39,10 @@ public:
 };
 
 // For optimization that requires gradient
-class MFuncGrad: public MFunc
+class MFuncGrad
 {
 public:
-    virtual void gradient(Constvec& x, Refvec grad) const = 0;
+    virtual double f_grad(Constvec& x, Refvec grad) const = 0;
 };
 
 
