@@ -9,13 +9,16 @@ Authors@R: c(
     person("Matt", "Beall", role = "aut",
            comment = "Numerical integration library"),
     person("Mark", "Sauder", role = "aut",
-           comment = "Numerical integration library")
+           comment = "Numerical integration library"),
+    person("Naoaki", "Okazaki", role = "aut",
+           comment = "libLBFGS library"),
     )
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
-Description: A collection of open source C++ libraries for numerical computing
+Description: A collection of open source libraries for numerical computing
     (numerical integration, optmization, etc.) and their integration with
     'Rcpp'.
 License: MPL (>= 2)
+Copyright: See file COPYRIGHTS
 LazyData: TRUE
 Imports:
     Rcpp
