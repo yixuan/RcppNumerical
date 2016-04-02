@@ -22,21 +22,11 @@ inline double integrate(
     const Integrator<double>::QuadratureRule rule = Integrator<double>::GaussKronrod41
 )
 {
-    // If lower > upper, change the limits
-    double ilower = lower, iupper = upper;
-    bool change_sign = false;
-    if(lower > upper)
-    {
-        ilower = upper;
-        iupper = lower;
-        change_sign = true;
-    }
-
     Integrator<double> intgr(subdiv);
-    double res = intgr.quadratureAdaptive(f, ilower, iupper, eps_abs, eps_rel, rule);
+    double res = intgr.quadratureAdaptive(f, lower, upper, eps_abs, eps_rel, rule);
     err_est = intgr.estimatedError();
     err_code = intgr.errorCode();
-    return change_sign ? -res : res;
+    return res;
 }
 
 
@@ -81,22 +71,12 @@ inline double integrate(
     const Integrator<double>::QuadratureRule rule = Integrator<double>::GaussKronrod41
 )
 {
-    // If lower > upper, change the limits
-    double ilower = lower, iupper = upper;
-    bool change_sign = false;
-    if(lower > upper)
-    {
-        ilower = upper;
-        iupper = lower;
-        change_sign = true;
-    }
-
     Integrator<double> intgr(subdiv);
     RFunc rfun(f, args);
-    double res = intgr.quadratureAdaptive(rfun, ilower, iupper, eps_abs, eps_rel, rule);
+    double res = intgr.quadratureAdaptive(rfun, lower, upper, eps_abs, eps_rel, rule);
     err_est = intgr.estimatedError();
     err_code = intgr.errorCode();
-    return change_sign ? -res : res;
+    return res;
 }
 
 
