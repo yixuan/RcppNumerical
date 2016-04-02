@@ -14,5 +14,9 @@
 #include "integration/Integrator.h"
 #include "integration/wrapper.h"
 
+// Optimization
+#include "optimization/lbfgs.h"
+#include "optimization/wrapper.h"
+
 
 #endif // RCPPNUMERICAL_H
