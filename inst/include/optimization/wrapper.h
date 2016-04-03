@@ -64,6 +64,7 @@ inline int optim_lbfgs(
     param.epsilon        = eps_g;
     param.delta          = eps_f;
     param.max_iterations = maxit;
+    param.linesearch     = LBFGS_LINESEARCH_BACKTRACKING_ARMIJO;
 
     // Call main function
     int status = cfun_lbfgs(x.size(), x.data(), &fx_opt,
