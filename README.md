@@ -11,6 +11,15 @@ integration or do optimization using pure C++ code inside Rcpp.
 libraries into Rcpp, so that users can call convenient functions to
 accomplish such tasks.
 
+- To use **RcppNumerical** with `Rcpp::sourceCpp()`, add
+```cpp
+// [[Rcpp::depends(RcppEigen)]]
+// [[Rcpp::depends(RcppNumerical)]]
+```
+in the C++ source file.
+- To use **RcppNumerical** in your package, add `Imports: RcppNumerical`
+and `LinkingTo: RcppEigen, RcppNumerical`.
+
 ### Numerical Integration
 
 The numerical integration code contained in **RcppNumerical** is based
