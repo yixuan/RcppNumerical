@@ -1,3 +1,4 @@
 import(Rcpp)
 export(integrate_rcpp)
+export(logistic_reg)
 useDynLib(RcppNumerical)
