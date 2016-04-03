@@ -4,7 +4,7 @@
 
 [Rcpp](https://cran.r-project.org/web/packages/Rcpp/index.html) is a
 powerful tool to write fast C++ code to speed up R programs. However,
-it is not easy, or at least not straightforward to compute numerical
+it is not easy, or at least not straightforward, to compute numerical
 integration or do optimization using pure C++ code inside Rcpp.
 
 **RcppNumerical** integrates a number of open source numerical computing
@@ -80,9 +80,7 @@ private:
     double a;
     double b;
 public:
-    BetaPDF(double a_, double b_) :
-        a(a_), b(b_)
-    {}
+    BetaPDF(double a_, double b_) : a(a_), b(b_) {}
 
     double operator()(const double& x) const
     {
@@ -90,9 +88,8 @@ public:
     }
 };
 
-
 // [[Rcpp::export]]
-Rcpp::List numer_test()
+Rcpp::List integrate_test()
 {
     const double a = 3, b = 10;
     const double lower = 0.3, upper = 0.8;
@@ -112,10 +109,10 @@ Rcpp::List numer_test()
 }
 ```
 
-Runing the `numer_test()` function in R gives
+Runing the `integrate_test()` function in R gives
 
 ```r
-> numer_test()
+> integrate_test()
 $true
 [1] 0.2528108
 
@@ -131,4 +128,134 @@ $error_code
 
 ### Numerical Optimization
 
-TODO
+Currently **RcppNumerical** contains the L-BFGS algorithm for unconstrained
+minimization problems based on the
+[libLBFGS](https://github.com/chokkan/liblbfgs) library
+developed by [Naoaki Okazaki](http://www.chokkan.org/).
+
+Again, one needs to first define a functor to represent the multivariate
+function to be minimized.
+
+```cpp
+class MFuncGrad
+{
+public:
+    virtual double f_grad(Constvec& x, Refvec grad) const = 0;
+};
+```
+
+Here `Constvec` represents a read-only vector and `Refvec` a writable
+vector. Their definitions are
+
+```cpp
+// Reference to a vector
+typedef Eigen::Ref<Eigen::VectorXd>             Refvec;
+typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
+```
+
+(Basically you can treat `Refvec` as a `Eigen::VectorXd` and
+`Constvec` the `const` version. Using `Eigen::Ref` is mainly to avoid
+memory copy. See the explanation
+[here](http://eigen.tuxfamily.org/dox/classEigen_1_1Ref.html).)
+
+The `f_grad()` member function returns the function value on vector `x`,
+and overwrites `grad` by the gradient.
+
+The wrapper function for libLBFGS is
+
+```cpp
+inline int optim_lbfgs(
+    MFuncGrad& f, Refvec x, double& fx_opt,
+    const int maxit = 300, const double& eps_f = 1e-8, const double& eps_g = 1e-6
+)
+```
+
+- `f`: The function to be minimized.
+- `x`: In: the initial guess. Out: best value of variables found.
+- `fx_opt`: Out: Function value on the output `x`.
+- `maxit`: Maximum number of iterations.
+- `eps_f`: Algorithm stops if `|f_{k+1} - f_k| < eps_f * |f_k|`.
+- `eps_g`: Algorithm stops if `|g| < eps_g * max(1, |x|)`.
+
+Below is an example to solve logistic regression using **RcppNumerical**.
+
+```cpp
+// [[Rcpp::depends(RcppEigen)]]
+// [[Rcpp::depends(RcppNumerical)]]
+
+#include <RcppNumerical.h>
+using namespace Numer;
+
+typedef Eigen::Map<Eigen::MatrixXd> MapMat;
+typedef Eigen::Map<Eigen::VectorXd> MapVec;
+
+class LogisticReg: public MFuncGrad
+{
+private:
+    MapMat X;
+    MapVec Y;
+public:
+    LogisticReg(MapMat x_, MapVec y_) : X(x_), Y(y_) {}
+
+    double f_grad(Constvec& beta, Refvec grad) const
+    {
+        // Negative log likelihood
+        //   sum(log(1 + exp(X * beta))) - y' * X * beta
+
+        Eigen::VectorXd xbeta = X * beta;
+        double yxbeta = Y.dot(xbeta);
+        // X * beta => exp(X * beta)
+        xbeta = xbeta.array().exp();
+        double f = (xbeta.array() + 1.0).log().sum() - yxbeta;
+
+        // Gradient
+        //   X' * (p - y), p = exp(X * beta) / (1 + exp(X * beta))
+
+        // exp(X * beta) => p
+        xbeta.array() /= (xbeta.array() + 1.0);
+        grad.noalias() = X.transpose() * (xbeta - Y);
+        return f;
+    }
+};
+
+// [[Rcpp::export]]
+Rcpp::NumericVector logistic_reg(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
+{
+    MapMat xx = Rcpp::as<MapMat>(x);
+    MapVec yy = Rcpp::as<MapVec>(y);
+    // Objective function
+    LogisticReg nll(xx, yy);
+    // Initial guess
+    Eigen::VectorXd beta(xx.cols());
+    beta.fill(0.5);
+
+    double fopt;
+    int status = optim_lbfgs(nll, beta, fopt);
+    if(status != 0)
+        Rcpp::stop("fail to converge");
+
+    return Rcpp::wrap(beta);
+}
+```
+
+The R code to test the function:
+
+```r
+set.seed(123)
+n = 5000
+p = 100
+x = matrix(rnorm(n * p), n)
+beta = runif(p)
+xb = c(x %*% beta)
+p = exp(xb) / (1 + exp(xb))
+y = rbinom(n, 1, p)
+
+system.time(res1 <- glm.fit(x, y, family = binomial())$coefficient)
+##  user  system elapsed
+## 0.339   0.004   0.342
+system.time(res2 <- logistic_reg(x, y))
+##  user  system elapsed
+##  0.01    0.00    0.01
+max(abs(res1 - res2))
+## [1] 7.862271e-09
+```
