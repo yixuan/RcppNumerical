@@ -18,7 +18,7 @@ accomplish such tasks.
 ```
 in the C++ source file.
 - To use **RcppNumerical** in your package, add `Imports: RcppNumerical`
-and `LinkingTo: RcppEigen, RcppNumerical`.
+and `LinkingTo: Rcpp, RcppEigen, RcppNumerical`.
 
 ### Numerical Integration
 
