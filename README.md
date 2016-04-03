@@ -61,6 +61,7 @@ inline double integrate(
 - `rule`: Integration rule. Possible values are
 `GaussKronrod{15, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 201}`. Rules with
 larger values have better accuracy, but may involve more function calls.
+- Return value: The final estimate of the integral.
 
 See a full example below, which can be compiled using the `Rcpp::sourceCpp`
 function in Rcpp.
@@ -175,9 +176,12 @@ inline int optim_lbfgs(
 - `fx_opt`: Out: Function value on the output `x`.
 - `maxit`: Maximum number of iterations.
 - `eps_f`: Algorithm stops if `|f_{k+1} - f_k| < eps_f * |f_k|`.
-- `eps_g`: Algorithm stops if `|g| < eps_g * max(1, |x|)`.
+- `eps_g`: Algorithm stops if `||g|| < eps_g * max(1, ||x||)`.
+- Return value: Error code. See
+[`lbfgs.h`](https://github.com/yixuan/RcppNumerical/blob/master/inst/include/optimization/lbfgs.h#L72)
+for explanation. Basically negative values indicate errors.
 
-Below is an example to optimize the Rosenbrock function
+Below is an example that illustrates the optimization of the Rosenbrock function
 `f(x1, x2) = 100 * (x2 - x1^2)^2 + (1 - x1)^2`:
 
 ```cpp
@@ -294,7 +298,7 @@ Rcpp::NumericVector logistic_reg(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
 
     double fopt;
     int status = optim_lbfgs(nll, beta, fopt);
-    if(status != 0)
+    if(status < 0)
         Rcpp::stop("fail to converge");
 
     return Rcpp::wrap(beta);

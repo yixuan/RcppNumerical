@@ -48,7 +48,7 @@ Rcpp::NumericVector logistic_reg_(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
 
     double fopt;
     int status = optim_lbfgs(nll, beta, fopt);
-    if(status != 0)
+    if(status < 0)
         Rcpp::stop("fail to converge");
 
     return Rcpp::wrap(beta);
