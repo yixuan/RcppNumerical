@@ -26,3 +26,15 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// logistic_reg_
+Rcpp::NumericVector logistic_reg_(Rcpp::NumericMatrix x, Rcpp::NumericVector y);
+RcppExport SEXP RcppNumerical_logistic_reg_(SEXP xSEXP, SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type y(ySEXP);
+    __result = Rcpp::wrap(logistic_reg_(x, y));
+    return __result;
+END_RCPP
+}

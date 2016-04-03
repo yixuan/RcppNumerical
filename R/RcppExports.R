@@ -5,3 +5,7 @@ integrate_rcpp_ <- function(f, args, lower, upper, subdiv, eps_abs, eps_rel, sto
     .Call('RcppNumerical_integrate_rcpp_', PACKAGE = 'RcppNumerical', f, args, lower, upper, subdiv, eps_abs, eps_rel, stop_on_error, rule)
 }
 
+logistic_reg_ <- function(x, y) {
+    .Call('RcppNumerical_logistic_reg_', PACKAGE = 'RcppNumerical', x, y)
+}
+
