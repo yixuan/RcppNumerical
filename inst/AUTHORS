@@ -5,4 +5,12 @@ were modified from library NumericalIntegration
 (https://github.com/tbs1980/NumericalIntegration)
 written by Sreekumar T. Balan, Matt Beall, and Mark Sauder.
 
+The files
+  inst/include/optimization/lbfgs.h
+  src/arithmetic_ansi.h
+  src/lbfgs.c
+were copied from the libLBFGS library
+(http://www.chokkan.org/software/liblbfgs/)
+written by Naoaki Okazaki.
+
 Other part of this package was written by Yixuan Qiu.
