@@ -177,13 +177,75 @@ inline int optim_lbfgs(
 - `eps_f`: Algorithm stops if `|f_{k+1} - f_k| < eps_f * |f_k|`.
 - `eps_g`: Algorithm stops if `|g| < eps_g * max(1, |x|)`.
 
-Below is an example to solve logistic regression using **RcppNumerical**.
+Below is an example to optimize the Rosenbrock function
+`f(x1, x2) = 100 * (x2 - x1^2)^2 + (1 - x1)^2`:
 
 ```cpp
 // [[Rcpp::depends(RcppEigen)]]
 // [[Rcpp::depends(RcppNumerical)]]
 
 #include <RcppNumerical.h>
+
+using namespace Numer;
+
+// f = 100 * (x2 - x1^2)^2 + (1 - x1)^2
+// True minimum: x1 = x2 = 1
+class Rosenbrock: public MFuncGrad
+{
+public:
+    double f_grad(Constvec& x, Refvec grad) const
+    {
+        double t1 = x[1] - x[0] * x[0];
+        double t2 = 1 - x[0];
+        grad[0] = -400 * x[0] * t1 - 2 * t2;
+        grad[1] = 200 * t1;
+        return 100 * t1 * t1 + t2 * t2;
+    }
+};
+
+// [[Rcpp::export]]
+Rcpp::List optim_test()
+{
+    Eigen::VectorXd x(2);
+    x[0] = -1.2;
+    x[1] = 1;
+    double fopt;
+    Rosenbrock f;
+    int res = optim_lbfgs(f, x, fopt);
+    return Rcpp::List::create(
+        Rcpp::Named("xopt") = x,
+        Rcpp::Named("fopt") = fopt,
+        Rcpp::Named("status") = res
+    );
+}
+```
+
+Calling the generated R function `optim_test()` gives
+
+```r
+> optim_test()
+$xopt
+[1] 1.000001 1.000001
+
+$fopt
+[1] 3.545445e-13
+
+$status
+[1] 0
+```
+
+### A More Interesting Example
+
+It may be more meaningful to look at a real application of the **RcppNumerical**
+package. Below is an example to fit logistic regression using the L-BFGS
+algorithm. It also demonstrates the performance of the library.
+
+```cpp
+// [[Rcpp::depends(RcppEigen)]]
+// [[Rcpp::depends(RcppNumerical)]]
+
+#include <RcppNumerical.h>
+
 using namespace Numer;
 
 typedef Eigen::Map<Eigen::MatrixXd> MapMat;
@@ -192,10 +254,10 @@ typedef Eigen::Map<Eigen::VectorXd> MapVec;
 class LogisticReg: public MFuncGrad
 {
 private:
-    MapMat X;
-    MapVec Y;
+    const MapMat X;
+    const MapVec Y;
 public:
-    LogisticReg(MapMat x_, MapVec y_) : X(x_), Y(y_) {}
+    LogisticReg(const MapMat x_, const MapVec y_) : X(x_), Y(y_) {}
 
     double f_grad(Constvec& beta, Refvec grad) const
     {
@@ -203,10 +265,10 @@ public:
         //   sum(log(1 + exp(X * beta))) - y' * X * beta
 
         Eigen::VectorXd xbeta = X * beta;
-        double yxbeta = Y.dot(xbeta);
+        const double yxbeta = Y.dot(xbeta);
         // X * beta => exp(X * beta)
         xbeta = xbeta.array().exp();
-        double f = (xbeta.array() + 1.0).log().sum() - yxbeta;
+        const double f = (xbeta.array() + 1.0).log().sum() - yxbeta;
 
         // Gradient
         //   X' * (p - y), p = exp(X * beta) / (1 + exp(X * beta))
@@ -214,6 +276,7 @@ public:
         // exp(X * beta) => p
         xbeta.array() /= (xbeta.array() + 1.0);
         grad.noalias() = X.transpose() * (xbeta - Y);
+
         return f;
     }
 };
@@ -221,9 +284,9 @@ public:
 // [[Rcpp::export]]
 Rcpp::NumericVector logistic_reg(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
 {
-    MapMat xx = Rcpp::as<MapMat>(x);
-    MapVec yy = Rcpp::as<MapVec>(y);
-    // Objective function
+    const MapMat xx = Rcpp::as<MapMat>(x);
+    const MapVec yy = Rcpp::as<MapVec>(y);
+    // Negative log likelihood
     LogisticReg nll(xx, yy);
     // Initial guess
     Eigen::VectorXd beta(xx.cols());
@@ -238,7 +301,7 @@ Rcpp::NumericVector logistic_reg(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
 }
 ```
 
-The R code to test the function:
+Here is the R code to test the function:
 
 ```r
 set.seed(123)
@@ -259,3 +322,6 @@ system.time(res2 <- logistic_reg(x, y))
 max(abs(res1 - res2))
 ## [1] 7.862271e-09
 ```
+
+It is much faster than the standard `glm.fit()` function in R! (Although
+`glm.fit()` calculates some other quantities besides beta.)
