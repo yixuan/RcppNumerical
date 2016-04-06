@@ -42,7 +42,7 @@ public:
 class MFuncGrad
 {
 public:
-    virtual double f_grad(Constvec& x, Refvec grad) const = 0;
+    virtual double f_grad(Constvec& x, Refvec grad) = 0;
 };
 
 
