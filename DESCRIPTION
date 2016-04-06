@@ -22,5 +22,5 @@ Copyright: See file COPYRIGHTS
 LazyData: TRUE
 Imports:
     Rcpp
-LinkingTo:
-    Rcpp, RcppEigen
+LinkingTo: Rcpp, RcppEigen
+RoxygenNote: 5.0.1
