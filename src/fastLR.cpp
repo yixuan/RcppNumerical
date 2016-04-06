@@ -39,7 +39,7 @@ public:
 };
 
 // [[Rcpp::export]]
-Rcpp::List logistic_reg_(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
+Rcpp::List fastLR_(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
 {
     const MapMat xx = Rcpp::as<MapMat>(x);
     const MapVec yy = Rcpp::as<MapVec>(y);

@@ -1,4 +1,4 @@
 import(Rcpp)
 export(integrate_rcpp)
-export(logistic_reg)
+export(fastLR)
 useDynLib(RcppNumerical)
