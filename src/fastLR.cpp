@@ -10,15 +10,16 @@ class LogisticReg: public MFuncGrad
 private:
     const MapMat X;
     const MapVec Y;
+    Eigen::VectorXd xbeta;  // contains X*beta and its transformation
 public:
     LogisticReg(const MapMat x_, const MapVec y_) : X(x_), Y(y_) {}
 
-    double f_grad(Constvec& beta, Refvec grad) const
+    double f_grad(Constvec& beta, Refvec grad)
     {
         // Negative log likelihood
         //   sum(log(1 + exp(X * beta))) - y' * X * beta
 
-        Eigen::VectorXd xbeta = X * beta;
+        xbeta.noalias() = X * beta;
         const double yxbeta = Y.dot(xbeta);
         // X * beta => exp(X * beta)
         xbeta = xbeta.array().exp();
@@ -33,10 +34,12 @@ public:
 
         return f;
     }
+
+    Eigen::VectorXd current_p() const { return xbeta; }
 };
 
 // [[Rcpp::export]]
-Rcpp::NumericVector logistic_reg_(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
+Rcpp::List logistic_reg_(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
 {
     const MapMat xx = Rcpp::as<MapMat>(x);
     const MapVec yy = Rcpp::as<MapVec>(y);
@@ -49,7 +52,12 @@ Rcpp::NumericVector logistic_reg_(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
     double fopt;
     int status = optim_lbfgs(nll, beta, fopt);
     if(status < 0)
-        Rcpp::stop("fail to converge");
+        Rcpp::warning("algorithm did not converge");
 
-    return Rcpp::wrap(beta);
+    return Rcpp::List::create(
+        Rcpp::Named("coefficients") = beta,
+        Rcpp::Named("fitted.values") = nll.current_p(),
+        Rcpp::Named("loglikelihood") = -fopt,
+        Rcpp::Named("converged") = (status >= 0)
+    );
 }
