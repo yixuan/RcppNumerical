@@ -11,6 +11,8 @@
 ##' @return \code{fastLR()} returns a list with the following components:
 ##' \item{coefficients}{Coefficient vector}
 ##' \item{fitted.values}{The fitted probability values}
+##' \item{linear.predictors}{The fitted values of the linear part, i.e.,
+##'                          \eqn{X\hat{\beta}}{X * beta_hat}}
 ##' \item{loglikelihood}{The maximized log likelihood}
 ##' \item{converged}{Whether the optimization algorithm has converged}
 ##'
@@ -22,6 +24,7 @@
 ##'
 ##' @keywords models
 ##' @keywords regression
+##'
 ##' @examples
 ##' set.seed(123)
 ##' n = 1000
@@ -29,7 +32,7 @@
 ##' x = matrix(rnorm(n * p), n)
 ##' beta = runif(p)
 ##' xb = c(x %*% beta)
-##' p = exp(xb) / (1 + exp(xb))
+##' p = 1 / (1 + exp(-xb))
 ##' y = rbinom(n, 1, p)
 ##'
 ##' system.time(res1 <- glm.fit(x, y, family = binomial()))
