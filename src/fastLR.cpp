@@ -47,19 +47,20 @@ public:
 };
 
 // [[Rcpp::export]]
-Rcpp::List fastLR_(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
+Rcpp::List fastLR_(Rcpp::NumericMatrix x, Rcpp::NumericVector y,
+                   Rcpp::NumericVector start,
+                   double eps_f, double eps_g, int maxit)
 {
     const MapMat xx = Rcpp::as<MapMat>(x);
     const MapVec yy = Rcpp::as<MapVec>(y);
     // Negative log likelihood
     LogisticReg nll(xx, yy);
     // Initial guess
-    Rcpp::NumericVector b(xx.cols());
+    Rcpp::NumericVector b = Rcpp::clone(start);
     MapVec beta(b.begin(), b.length());
-    beta.setOnes();
 
     double fopt;
-    int status = optim_lbfgs(nll, beta, fopt);
+    int status = optim_lbfgs(nll, beta, fopt, maxit, eps_f, eps_g);
     if(status < 0)
         Rcpp::warning("algorithm did not converge");
 
