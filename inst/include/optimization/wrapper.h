@@ -49,7 +49,7 @@ inline lbfgsfloatval_t lbfgs_evalfun(
 // Main function
 inline int optim_lbfgs(
     MFuncGrad& f, Refvec x, double& fx_opt,
-    const int maxit = 300, const double& eps_f = 1e-8, const double& eps_g = 1e-6
+    const int maxit = 300, const double& eps_f = 1e-6, const double& eps_g = 1e-5
 )
 {
     // Find functions
@@ -64,7 +64,8 @@ inline int optim_lbfgs(
     param.epsilon        = eps_g;
     param.delta          = eps_f;
     param.max_iterations = maxit;
-    param.linesearch     = LBFGS_LINESEARCH_BACKTRACKING_ARMIJO;
+    param.max_linesearch = 100;
+    param.linesearch     = LBFGS_LINESEARCH_BACKTRACKING;
 
     // Call main function
     int status = cfun_lbfgs(x.size(), x.data(), &fx_opt,
