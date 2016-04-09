@@ -5,8 +5,16 @@
 ##' \code{optim_lbfgs()} provided by \pkg{RcppNumerical} to perform L-BFGS
 ##' optimization.
 ##'
-##' @param x The model matrix
-##' @param y The response vector
+##' @param x The model matrix.
+##' @param y The response vector.
+##' @param start The initial guess of the coefficient vector.
+##' @param eps_f Iteration stops if \eqn{|f-f'|/|f|<\epsilon_f}{|f-f'|/|f|<eps_f},
+##'              where \eqn{f} and \eqn{f'} are the current and previous value
+##'              of the objective function (negative log likelihood) respectively.
+##' @param eps_g Iteration stops if
+##'              \eqn{||g|| < \epsilon_g * \max(1, ||\beta||)}{||g|| < eps_g * max(1, ||beta||)},
+##'              where \eqn{g} is the gradient.
+##' @param maxit Maximum number of iterations.
 ##'
 ##' @return \code{fastLR()} returns a list with the following components:
 ##' \item{coefficients}{Coefficient vector}
@@ -38,7 +46,8 @@
 ##' system.time(res1 <- glm.fit(x, y, family = binomial()))
 ##' system.time(res2 <- fastLR(x, y))
 ##' max(abs(res1$coefficients - res2$coefficients))
-fastLR <- function(x, y)
+fastLR <- function(x, y, start = rep(0, ncol(x)),
+                   eps_f = 1e-8, eps_g = 1e-5, maxit = 300)
 {
-    fastLR_(x, y)
+    fastLR_(x, y, start, eps_f, eps_g, maxit)
 }
