@@ -150,7 +150,7 @@ function to be minimized.
 class MFuncGrad
 {
 public:
-    virtual double f_grad(Constvec& x, Refvec grad) const = 0;
+    virtual double f_grad(Constvec& x, Refvec grad) = 0;
 };
 ```
 
@@ -176,7 +176,7 @@ The wrapper function for libLBFGS is
 ```cpp
 inline int optim_lbfgs(
     MFuncGrad& f, Refvec x, double& fx_opt,
-    const int maxit = 300, const double& eps_f = 1e-8, const double& eps_g = 1e-6
+    const int maxit = 300, const double& eps_f = 1e-6, const double& eps_g = 1e-5
 )
 ```
 
@@ -206,7 +206,7 @@ using namespace Numer;
 class Rosenbrock: public MFuncGrad
 {
 public:
-    double f_grad(Constvec& x, Refvec grad) const
+    double f_grad(Constvec& x, Refvec grad)
     {
         double t1 = x[1] - x[0] * x[0];
         double t2 = 1 - x[0];
@@ -238,10 +238,10 @@ Calling the generated R function `optim_test()` gives
 ```r
 > optim_test()
 $xopt
-[1] 1.000001 1.000001
+[1] 1 1
 
 $fopt
-[1] 3.545445e-13
+[1] 3.12499e-15
 
 $status
 [1] 0
@@ -272,7 +272,7 @@ private:
 public:
     LogisticReg(const MapMat x_, const MapVec y_) : X(x_), Y(y_) {}
 
-    double f_grad(Constvec& beta, Refvec grad) const
+    double f_grad(Constvec& beta, Refvec grad)
     {
         // Negative log likelihood
         //   sum(log(1 + exp(X * beta))) - y' * X * beta
@@ -303,7 +303,7 @@ Rcpp::NumericVector logistic_reg(Rcpp::NumericMatrix x, Rcpp::NumericVector y)
     LogisticReg nll(xx, yy);
     // Initial guess
     Eigen::VectorXd beta(xx.cols());
-    beta.fill(0.5);
+    beta.setZero();
 
     double fopt;
     int status = optim_lbfgs(nll, beta, fopt);
@@ -326,15 +326,26 @@ xb = c(x %*% beta)
 p = exp(xb) / (1 + exp(xb))
 y = rbinom(n, 1, p)
 
-system.time(res1 <- glm.fit(x, y, family = binomial())$coefficient)
+system.time(res1 <- glm.fit(x, y, family = binomial())$coefficients)
 ##  user  system elapsed
 ## 0.339   0.004   0.342
 system.time(res2 <- logistic_reg(x, y))
 ##  user  system elapsed
 ##  0.01    0.00    0.01
 max(abs(res1 - res2))
-## [1] 7.862271e-09
+## [1] 1.977189e-07
 ```
 
 It is much faster than the standard `glm.fit()` function in R! (Although
 `glm.fit()` calculates some other quantities besides beta.)
+
+**RcppNumerical** also provides the `fastLR()` function to run fast logistic
+regression, which is a modified and more stable version of the code above.
+
+```r
+system.time(res3 <- fastLR(x, y)$coefficients)
+##  user  system elapsed
+##  0.01    0.00    0.01
+max(abs(res1 - res3))
+## [1] 1.977189e-07
+```
