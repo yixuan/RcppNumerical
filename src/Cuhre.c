@@ -33,7 +33,7 @@ Extern void EXPORT(Cuhre)(ccount ndim, ccount ncomp,
   t.nvec = nvec;
   t.epsrel = epsrel;
   t.epsabs = epsabs;
-  t.flags = MaxVerbose(flags);
+  t.flags = 4; /* MaxVerbose(flags); */ /* No verbose. -- Yixuan */
   t.mineval = mineval;
   t.maxeval = maxeval;
   t.key = key;

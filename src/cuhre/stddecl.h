@@ -113,7 +113,9 @@ enum { uninitialized = 0x61627563 };
     } \
   }
 
-#define VerboseInit() EnvInit(cubaverb_, "CUBAVERBOSE", 0)
+/* No verbose. -- Yixuan */
+/* #define VerboseInit() EnvInit(cubaverb_, "CUBAVERBOSE", 0) */
+#define VerboseInit()
 #define MaxVerbose(flags) (flags + IDim(IMin(cubaverb_, 3) - ((flags) & 3)))
 
 #define VERBOSE (t->flags & 3)
