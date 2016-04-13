@@ -288,7 +288,7 @@ ssize_t ini = 1; \
 struct stat st
 */
 #define StateDecl \
-ssize_t ini = 1;
+int ini = 1;
 
 /* Remove state related code. -- Yixuan */
 /*
