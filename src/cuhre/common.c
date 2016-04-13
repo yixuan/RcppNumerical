@@ -9,15 +9,21 @@
 #include "ChiSquare.c"
 #include "Rule.c"
 
-static inline bool BadDimension(cThis *t)
+/* Use int for bool. -- Yixuan */
+/* static inline bool BadDimension(cThis *t) */
+static inline int BadDimension(cThis *t)
 {
-  if( t->ndim > MAXDIM ) return true;
+  /* if( t->ndim > MAXDIM ) return true; */
+  if( t->ndim > MAXDIM ) return 1;
   return t->ndim < 2;
 }
 
-static inline bool BadComponent(cThis *t)
+/* Use int for bool. -- Yixuan */
+/* static inline bool BadComponent(cThis *t) */
+static inline int BadComponent(cThis *t)
 {
-  if( t->ncomp > MAXCOMP ) return true;
+  /* if( t->ncomp > MAXCOMP ) return true; */
+  if( t->ncomp > MAXCOMP ) return 1;
   return t->ncomp < 1;
 }
 

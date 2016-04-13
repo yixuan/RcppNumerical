@@ -24,12 +24,16 @@
 #include <math.h>
 #include <float.h>
 #include <limits.h>
+/*
 #include <unistd.h>
 #include <assert.h>
 #include <fcntl.h>
+*/
 #include <setjmp.h>
+/*
 #include <sys/stat.h>
 #include <sys/types.h>
+*/
 #ifdef HAVE_FORK
 #include <sys/wait.h>
 #include <sys/socket.h>
@@ -208,12 +212,23 @@ enum { uninitialized = 0x61627563 };
 #define ML_NOT(...) __VA_ARGS__
 
 #define CORE_MASTER (int []){32768}
+/* Use int for bool. -- Yixuan */
+/*
 #define MasterInit() do if( !cubafun_.init ) { \
   cubafun_.init = true; \
   if( cubafun_.initfun ) cubafun_.initfun(cubafun_.initarg, CORE_MASTER); \
 } while( 0 )
 #define MasterExit() do if( cubafun_.init ) { \
   cubafun_.init = false; \
+  if( cubafun_.exitfun ) cubafun_.exitfun(cubafun_.exitarg, CORE_MASTER); \
+} while( 0 )
+*/
+#define MasterInit() do if( !cubafun_.init ) { \
+  cubafun_.init = 1; \
+  if( cubafun_.initfun ) cubafun_.initfun(cubafun_.initarg, CORE_MASTER); \
+} while( 0 )
+#define MasterExit() do if( cubafun_.init ) { \
+  cubafun_.init = 0; \
   if( cubafun_.exitfun ) cubafun_.exitfun(cubafun_.exitarg, CORE_MASTER); \
 } while( 0 )
 #define Invalid(s) ((s) == NULL || *(int *)(s) == -1)
@@ -262,12 +277,19 @@ enum { uninitialized = 0x61627563 };
   }
 
 
+/* Remove state related code. -- Yixuan */
+/*
 #define StateDecl \
 char *statefile_tmp = NULL, *statefile_XXXXXX = NULL; \
 int statemsg = VERBOSE; \
 ssize_t ini = 1; \
 struct stat st
+*/
+#define StateDecl \
+ssize_t ini = 1;
 
+/* Remove state related code. -- Yixuan */
+/*
 #define StateSetup(t) if( (t)->statefile ) { \
   if( *(t)->statefile == 0 ) (t)->statefile = NULL; \
   else { \
@@ -277,9 +299,12 @@ struct stat st
     statefile_XXXXXX = statefile_tmp + len; \
   } \
 }
+*/
 
 typedef long long int signature_t;
 
+/* Remove state related code. -- Yixuan */
+/*
 enum { signature = 0x41425543 };
 
 #define StateSignature(t, i) (signature + \
@@ -342,18 +367,22 @@ enum { signature = 0x41425543 };
 
 #define StateRemove(t) \
 if( fail == 0 && (t)->statefile && KEEPFILE == 0 ) unlink((t)->statefile)
+*/
 
 
 #ifdef __cplusplus
 #define Extern extern "C"
 #else
 #define Extern extern
-typedef enum { false, true } bool;
+/* This is dangerous. -- Yixuan */
+/* typedef enum { false, true } bool; */
 #endif
 
 typedef const char cchar;
 
-typedef const bool cbool;
+/* Use int for bool. -- Yixuan */
+/* typedef const bool cbool; */
+typedef const int cbool;
 
 typedef const int cint;
 
@@ -436,7 +465,9 @@ typedef struct {
   void *initarg;
   subroutine exitfun;
   void *exitarg;
-  bool init;
+  /* Use int for bool. -- Yixuan */
+  /* bool init; */
+  int init;
 } coreinit;
 
 typedef struct {

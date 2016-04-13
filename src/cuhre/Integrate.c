@@ -71,6 +71,8 @@ static int Integrate(This *t, real *integral, real *err, real *prob)
 
   if( (fail = setjmp(t->abort)) ) goto abort;
 
+  /* Remove state related code. -- Yixuan */
+  /*
   StateSetup(t);
 
   if( StateReadTest(t) ) {
@@ -90,6 +92,7 @@ static int Integrate(This *t, real *integral, real *err, real *prob)
       if( size != state->ncur*regionsize ) break;
     } StateReadClose(t, fd);
   }
+  */
 
   if( ini ) {
     MemAlloc(cur, poolsize);
@@ -224,6 +227,8 @@ static int Integrate(This *t, real *integral, real *err, real *prob)
     }
     ++t->nregions;
 
+    /* Remove state related code. -- Yixuan */
+    /*
     if( StateWriteTest(t) ) {
       StateWriteOpen(t, fd) {
         Pool *prev = cur;
@@ -235,6 +240,7 @@ static int Integrate(This *t, real *integral, real *err, real *prob)
         StateWrite(fd, cur, state->ncur*regionsize);
       } StateWriteClose(t, fd);
     }
+    */
   }
 
   for( tot = state->totals, comp = 0; tot < Tot; ++tot, ++comp ) {
@@ -275,7 +281,8 @@ abort:
   FrameFree(t, Master);
   RuleFree(t);
 
-  StateRemove(t);
+  /* Remove state related code. -- Yixuan */
+  /* StateRemove(t); */
 
   MemFree(out);
   MemFree(result);
