@@ -752,6 +752,6 @@ static void Sample(This *t, Region *region)
         REAL " +- " REAL, ++comp, SHOW(res->avg), SHOW(res->err));
 
     Print(out);
+    MemFree(out);
   }
 }
-

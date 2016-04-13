@@ -24,7 +24,7 @@ typedef struct {
   Totals totals[];
 } State;
 
-static int Integrate(This *t, real *integral, real *error, real *prob)
+static int Integrate(This *t, real *integral, real *err, real *prob)
 {
   StateDecl;
   csize_t statesize = sizeof(State) + NCOMP*sizeof(Totals);
@@ -239,7 +239,7 @@ static int Integrate(This *t, real *integral, real *error, real *prob)
 
   for( tot = state->totals, comp = 0; tot < Tot; ++tot, ++comp ) {
     integral[comp] = tot->avg;
-    error[comp] = tot->err;
+    err[comp] = tot->err;
     prob[comp] = ChiSquare(tot->chisq, t->nregions - 1);
   }
 
@@ -277,6 +277,9 @@ abort:
 
   StateRemove(t);
 
+  MemFree(out);
+  MemFree(result);
+  MemFree(state);
+
   return fail;
 }
-

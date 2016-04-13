@@ -12,8 +12,11 @@
 #include "config.h"
 #endif
 
+/* These are deprecated. -- Yixuan */
+/*
 #define _BSD_SOURCE
 #define _SVID_SOURCE
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +40,10 @@
 #endif
 #endif
 
+#include <R.h>  /* For error handling */
+
+/* Replace alloca by malloc. -- Yixuan */
+/*
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #elif defined __GNUC__
@@ -53,6 +60,7 @@ extern "C"
 #endif
 void *alloca (size_t);
 #endif
+*/
 
 #ifndef NDIM
 #define NDIM t->ndim
@@ -114,11 +122,15 @@ enum { uninitialized = 0x61627563 };
 
 #define INFTY DBL_MAX
 
+/* Do not use non-standard way. -- Yixuan */
+/*
 #if __STDC_VERSION__ >= 199901L
 #define POW2(n) 0x1p-##n
 #else
 #define POW2(n) ldexp(1., -n)
 #endif
+*/
+#define POW2(n) ldexp(1., -n)
 
 #define NOTZERO POW2(104)
 
@@ -152,9 +164,13 @@ enum { uninitialized = 0x61627563 };
 #define reallocset(p, n) (p = realloc(p, n))
 #endif
 
+/* Use R error handling. -- Yixuan */
+/*
 #define Abort(s) abort1(s, __LINE__)
 #define abort1(s, line) abort2(s, line)
 #define abort2(s, line) { perror(s " " __FILE__ "(" #line ")"); exit(1); }
+*/
+#define Abort(s) { Rf_error("%s: %s(%d)", s, __FILE__, __LINE__); }
 
 #define Die(p) if( (p) == NULL ) Abort("malloc")
 
@@ -162,6 +178,8 @@ enum { uninitialized = 0x61627563 };
 #define ReAlloc(p, n) Die(reallocset(p, n))
 #define Alloc(p, n) MemAlloc(p, (n)*sizeof(*p))
 
+/* Replace alloca by malloc. -- Yixuan */
+/*
 #if __STDC_VERSION__ >= 199901L
 #define Sized(type, var, size) char var##_[size]; type *var = (type *)var##_
 #define Vector(type, var, n1) type var[n1]
@@ -171,6 +189,11 @@ enum { uninitialized = 0x61627563 };
 #define Vector(type, var, n1) type *var = alloca((n1)*sizeof(type))
 #define Array(type, var, n1, n2) type (*var)[n2] = alloca((n1)*(n2)*sizeof(type))
 #endif
+*/
+#define Sized(type, var, size) type *var = malloc(size)
+#define Vector(type, var, n1) type *var = malloc((n1)*sizeof(type))
+#define Array(type, var, n1, n2) type (*var)[n2] = malloc((n1)*(n2)*sizeof(type))
+#define MemFree(var) free(var)
 
 #define FORK_ONLY(...)
 #define SHM_ONLY(...)
@@ -227,7 +250,7 @@ enum { uninitialized = 0x61627563 };
 #endif
 #endif
 #endif
-  
+
 #define FrameAlloc(t, who) \
   SHM_ONLY(ShmAlloc(t, who) else) \
   MemAlloc(t->frame, t->nframe*SAMPLESIZE);
@@ -472,16 +495,22 @@ typedef struct {
 } RNGState;
 
 
+/* We do not need to consider FORTRAN interface. -- Yixuan */
+/*
 #if NOUNDERSCORE
 #define SUFFIX(s) s
 #else
 #define SUFFIX(s) s##_
 #endif
+*/
+#define SUFFIX(s) s
 
 #define EXPORT(s) EXPORT_(PREFIX(s))
 #define EXPORT_(s) SUFFIX(s)
 
 
+/* This is only used in the FORTRAN version. -- Yixuan */
+/*
 #define CString(cs, fs, len) { \
   char *_s = NULL; \
   if( fs ) { \
@@ -494,6 +523,7 @@ typedef struct {
   } \
   cs = _s; \
 }
+*/
 
 static inline real Sq(creal x) {
   return x*x;
@@ -553,9 +583,10 @@ static inline void Print(MLCONST char *s)
 
 #else
 
-#define Print(s) puts(s); fflush(stdout)
+/* Use R printing. -- Yixuan */
+/* #define Print(s) puts(s); fflush(stdout) */
+#define Print(s) Rprintf(s);
 
 #endif
 
 #endif
-
