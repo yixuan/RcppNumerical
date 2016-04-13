@@ -14,7 +14,7 @@ namespace Numer
 {
 
 
-// For numerical integration
+// For 1-D numerical integration
 class Func
 {
 public:
@@ -31,11 +31,12 @@ public:
 typedef Eigen::Ref<Eigen::VectorXd>             Refvec;
 typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
 
-// For optimization that does not require gradient
+// For multi-dimensional numerical integration and
+// optimization that does not require gradient
 class MFunc
 {
 public:
-    virtual double operator()(Constvec& x) const = 0;
+    virtual double operator()(Constvec& x) = 0;
 };
 
 // For optimization that requires gradient
