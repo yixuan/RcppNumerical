@@ -12,6 +12,7 @@
 // Integration
 #include "integration/GaussKronrodNodesWeights.h"
 #include "integration/Integrator.h"
+#include "integration/cuba.h"
 #include "integration/wrapper.h"
 
 // Optimization

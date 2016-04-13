@@ -9,12 +9,15 @@
 
 #include "GaussKronrodNodesWeights.h"
 #include "Integrator.h"
+#include "cuba.h"
 #include "../Func.h"
 
 namespace Numer
 {
 
-
+//
+// [RcppNumerical API] 1-D numerical integration
+//
 inline double integrate(
     const Func& f, const double& lower, const double& upper,
     double& err_est, int& err_code,
@@ -29,6 +32,7 @@ inline double integrate(
     return res;
 }
 
+/****************************************************************************/
 
 // Integrate R function
 class RFunc: public Func
@@ -64,6 +68,9 @@ public:
     }
 };
 
+//
+// [RcppNumerical API] 1-D numerical integration for R function
+//
 inline double integrate(
     Rcpp::Function f, Rcpp::RObject args, const double& lower, const double& upper,
     double& err_est, int& err_code,
@@ -79,8 +86,75 @@ inline double integrate(
     return res;
 }
 
+/****************************************************************************/
 
+// Evaluation function for Cuhre()
+inline int cuhre_integrand(const int *ndim, const cubareal x[],
+                           const int *ncomp, cubareal f[], void *userdata)
+{
+    MFunc* func = (MFunc*) userdata;
+    const Eigen::Map<const Eigen::VectorXd> xval(x, *ndim);
+    *f = func->operator()(xval);
+
+    return 0;
 }
+
+// Transform function according to integral limits
+class MFuncWithBound: public MFunc
+{
+private:
+    const double    scalefac;
+    MFunc&          fun;
+    Constvec&       lb;
+    Eigen::VectorXd range;
+    Eigen::VectorXd scalex;
+public:
+    MFuncWithBound(MFunc& f, Constvec& lower, Constvec& upper) :
+        scalefac((upper - lower).prod()),
+        fun(f), lb(lower),
+        range(upper - lower), scalex(lower.size())
+    {}
+
+    inline double operator()(Constvec& x)
+    {
+        scalex.noalias() = lb + range.cwiseProduct(x);
+        return fun(scalex);
+    }
+
+    inline double scale_factor() const { return scalefac; }
+
+};
+
+//
+// [RcppNumerical API] Multi-dimensional integration
+//
+inline double integrate(
+    MFunc& f, Constvec& lower, Constvec& upper,
+    double& err_est, int& err_code,
+    const int maxeval = 1000, const double& eps_abs = 1e-6, const double& eps_rel = 1e-6
+)
+{
+    MFuncWithBound fb(f, lower, upper);
+    int nregions;
+    int neval;
+    double integral;
+    double prob;
+
+    Cuhre(lower.size(), 1, cuhre_integrand, &fb, 1,
+          eps_rel, eps_abs,
+          4, 1, maxeval,
+          0,
+          NULL, NULL,
+          &nregions, &neval, &err_code, &integral, &err_est, &prob);
+
+    integral *= fb.scale_factor();
+    err_est  *= std::abs(fb.scale_factor());
+
+    return integral;
+}
+
+
+}  // namespace Numer
 
 
 #endif // INTEGRATION_WRAPPER_H
