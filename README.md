@@ -279,8 +279,8 @@ public:
 };
 ```
 
-Here `Constvec` represents a read-only vector and `Refvec` a writable
-vector. Their definitions are
+Same as the case in multi-dimensional integration, `Constvec` represents a
+read-only vector and `Refvec` a writable vector. Their definitions are
 
 ```cpp
 // Reference to a vector
@@ -288,15 +288,10 @@ typedef Eigen::Ref<Eigen::VectorXd>             Refvec;
 typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
 ```
 
-(Basically you can treat `Refvec` as a `Eigen::VectorXd` and
-`Constvec` the `const` version. Using `Eigen::Ref` is mainly to avoid
-memory copy. See the explanation
-[here](http://eigen.tuxfamily.org/dox/classEigen_1_1Ref.html).)
-
 The `f_grad()` member function returns the function value on vector `x`,
 and overwrites `grad` by the gradient.
 
-The wrapper function for libLBFGS is
+The wrapper function for **libLBFGS** is
 
 ```cpp
 inline int optim_lbfgs(
