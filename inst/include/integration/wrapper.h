@@ -88,6 +88,16 @@ inline double integrate(
 
 /****************************************************************************/
 
+// Function type for Cuhre()
+typedef void (*CFUN_Cuhre_TYPE)(const int ndim, const int ncomp,
+    integrand_t integrand, void *userdata, const int nvec,
+    const cubareal epsrel, const cubareal epsabs,
+    const int flags, const int mineval, const int maxeval,
+    const int key,
+    const char *statefile, void *spin,
+    int *nregions, int *neval, int *fail,
+    cubareal integral[], cubareal err[], cubareal prob[]);
+
 // Evaluation function for Cuhre()
 inline int cuhre_integrand(const int *ndim, const cubareal x[],
                            const int *ncomp, cubareal f[], void *userdata)
@@ -134,18 +144,21 @@ inline double integrate(
     const int maxeval = 1000, const double& eps_abs = 1e-6, const double& eps_rel = 1e-6
 )
 {
+    // Find the Cuhre() function
+    CFUN_Cuhre_TYPE cfun_Cuhre = (CFUN_Cuhre_TYPE) R_GetCCallable("RcppNumerical", "Cuhre");
+
     MFuncWithBound fb(f, lower, upper);
     int nregions;
     int neval;
     double integral;
     double prob;
 
-    Cuhre(lower.size(), 1, cuhre_integrand, &fb, 1,
-          eps_rel, eps_abs,
-          4, 1, maxeval,
-          0,
-          NULL, NULL,
-          &nregions, &neval, &err_code, &integral, &err_est, &prob);
+    cfun_Cuhre(lower.size(), 1, cuhre_integrand, &fb, 1,
+               eps_rel, eps_abs,
+               4, 1, maxeval,
+               0,
+               NULL, NULL,
+               &nregions, &neval, &err_code, &integral, &err_est, &prob);
 
     integral *= fb.scale_factor();
     err_est  *= std::abs(fb.scale_factor());

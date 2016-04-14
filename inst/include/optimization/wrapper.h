@@ -46,7 +46,7 @@ inline lbfgsfloatval_t lbfgs_evalfun(
 }
 
 
-// Main function
+// [RcppNumerical API] Optimization using L-BFGS algorithm
 inline int optim_lbfgs(
     MFuncGrad& f, Refvec x, double& fx_opt,
     const int maxit = 300, const double& eps_f = 1e-6, const double& eps_g = 1e-5
