@@ -1,5 +1,12 @@
 ## Rcpp Integration for Numerical Computing Libraries
 
+- [Introduction](#introduction)
+- [Numerical Integration](#numerical-integration)
+  - [One-dimensional](#one-dimensional)
+  - [Multi-dimensional](#multi-dimensional)
+- [Numerical Optimization](#numerical-optimization)
+- [A More Interesting Example](#a-more-interesting-example)
+
 ### Introduction
 
 [Rcpp](https://cran.r-project.org/web/packages/Rcpp/index.html) is a
@@ -22,13 +29,15 @@ and `LinkingTo: Rcpp, RcppEigen, RcppNumerical`.
 
 ### Numerical Integration
 
-The numerical integration code contained in **RcppNumerical** is based
-on the [NumericalIntegration](https://github.com/tbs1980/NumericalIntegration)
+#### One-dimensional
+
+The one-dimensional numerical integration code contained in **RcppNumerical**
+is based on the [NumericalIntegration](https://github.com/tbs1980/NumericalIntegration)
 library developed by [Sreekumar Thaithara Balan](https://github.com/tbs1980),
 [Mark Sauder](https://github.com/mcsauder), and Matt Beall.
 
-To compute integration of a function, first define a functor inherited from
-the `Func` class:
+To compute integration of a function, first define a functor derived from
+the `Func` class (under the namespace `Numer`):
 
 ```cpp
 class Func
@@ -78,12 +87,10 @@ function in Rcpp.
 ```cpp
 // [[Rcpp::depends(RcppEigen)]]
 // [[Rcpp::depends(RcppNumerical)]]
-
 #include <RcppNumerical.h>
 using namespace Numer;
 
-// Integration of Beta distribution PDF over [0.3, 0.8]
-
+// P(0.3 < X < 0.8), X ~ Beta(a, b)
 class BetaPDF: public Func
 {
 private:
@@ -122,18 +129,136 @@ Rcpp::List integrate_test()
 Runing the `integrate_test()` function in R gives
 
 ```r
-> integrate_test()
-$true
-[1] 0.2528108
+integrate_test()
+## $true
+## [1] 0.2528108
+##
+## $approximate
+## [1] 0.2528108
+##
+## $error_estimate
+## [1] 2.806764e-15
+##
+## $error_code
+## [1] 0
+```
 
-$approximate
-[1] 0.2528108
+#### Multi-dimensional
 
-$error_estimate
-[1] 2.806764e-15
+Multi-dimensional integration in **RcppNumerical** is done by the
+[Cuba](http://www.feynarts.de/cuba/) library developed by
+[Thomas Hahn](http://wwwth.mpp.mpg.de/members/hahn/).
 
-$error_code
-[1] 0
+To calculate the integration of a multivariate function, one needs to define
+a functor that inherits from the `MFunc` class:
+
+```cpp
+class MFunc
+{
+public:
+    virtual double operator()(Constvec& x) = 0;
+};
+```
+
+Here `Constvec` represents a read-only vector with the definition
+
+```cpp
+// Constant reference to a vector
+typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
+```
+
+(Basically you can treat `Constvec` as a `const Eigen::VectorXd`. Using
+`Eigen::Ref` is mainly to avoid memory copy. See the explanation
+[here](http://eigen.tuxfamily.org/dox/classEigen_1_1Ref.html).)
+
+The function provided by **RcppNumerical** for multi-dimensional
+integration is
+
+```cpp
+inline double integrate(
+    MFunc& f, Constvec& lower, Constvec& upper,
+    double& err_est, int& err_code,
+    const int maxeval = 1000,
+    const double& eps_abs = 1e-6, const double& eps_rel = 1e-6
+)
+```
+
+- `f`: The functor of integrand.
+- `lower`, `upper`: Limits of integral. Both are vectors of the same
+dimension of `f`.
+- `err_est`: Estimate of the error (output).
+- `err_code`: Error code (output). Non-zero values indicate failure of
+convergence.
+- `maxeval`: Maximum number of function evaluations.
+- `eps_abs`, `eps_rel`: Absolute and relative tolerance.
+- Return value: The final estimate of the integral.
+
+See the example below:
+
+```cpp
+// [[Rcpp::depends(RcppEigen)]]
+// [[Rcpp::depends(RcppNumerical)]]
+#include <RcppNumerical.h>
+using namespace Numer;
+
+// P(a1 < X1 < b1, a2 < X2 < b2), (X1, X2) ~ N([0], [1   rho])
+//                                            ([0], [rho   1])
+class BiNormal: public MFunc
+{
+private:
+    const double rho;
+    double const1;  // 2 * (1 - rho^2)
+    double const2;  // 1 / (2 * PI) / sqrt(1 - rho^2)
+public:
+    BiNormal(const double& rho_) : rho(rho_)
+    {
+        const1 = 2.0 * (1.0 - rho * rho);
+        const2 = 1.0 / (2 * M_PI) / std::sqrt(1.0 - rho * rho);
+    }
+
+    // PDF of bivariate normal
+    double operator()(Constvec& x)
+    {
+        double z = x[0] * x[0] - 2 * rho * x[0] * x[1] + x[1] * x[1];
+        return const2 * std::exp(-z / const1);
+    }
+};
+
+// [[Rcpp::export]]
+Rcpp::List integrate_test2()
+{
+    BiNormal f(0.5);  // rho = 0.5
+    Eigen::VectorXd lower(2);
+    lower << -1, -1;
+    Eigen::VectorXd upper(2);
+    upper << 1, 1;
+    double err_est;
+    int err_code;
+    const double res = integrate(f, lower, upper, err_est, err_code);
+    return Rcpp::List::create(
+        Rcpp::Named("approximate") = res,
+        Rcpp::Named("error_estimate") = err_est,
+        Rcpp::Named("error_code") = err_code
+    );
+}
+```
+
+We can test the result in R:
+
+```r
+library(mvtnorm)
+trueval = pmvnorm(c(-1, -1), c(1, 1), sigma = matrix(c(1, 0.5, 0.5, 1), 2))
+integrate_test2()
+## $approximate
+## [1] 0.4979718
+##
+## $error_estimate
+## [1] 4.612333e-09
+##
+## $error_code
+## [1] 0
+trueval - integrate_test2()$approximate
+## [1] 2.893336e-11
 ```
 
 ### Numerical Optimization
@@ -236,15 +361,15 @@ Rcpp::List optim_test()
 Calling the generated R function `optim_test()` gives
 
 ```r
-> optim_test()
-$xopt
-[1] 1 1
-
-$fopt
-[1] 3.12499e-15
-
-$status
-[1] 0
+optim_test()
+## $xopt
+## [1] 1 1
+##
+## $fopt
+## [1] 3.12499e-15
+##
+## $status
+## [1] 0
 ```
 
 ### A More Interesting Example
