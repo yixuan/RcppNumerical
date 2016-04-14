@@ -9,11 +9,11 @@
 
 #include <RcppEigen.h>
 #include <R_ext/Rdynload.h>
-
 #include "lbfgs.h"
 
 namespace Numer
 {
+
 
 // Function type for lbfgs()
 typedef int (*CFUN_lbfgs_TYPE)(
