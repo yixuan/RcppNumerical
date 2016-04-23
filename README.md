@@ -9,7 +9,7 @@
 
 ### Introduction
 
-[Rcpp](https://cran.r-project.org/web/packages/Rcpp/index.html) is a
+[Rcpp](http://cran.r-project.org/package=Rcpp) is a
 powerful tool to write fast C++ code to speed up R programs. However,
 it is not easy, or at least not straightforward, to compute numerical
 integration or do optimization using pure C++ code inside Rcpp.
