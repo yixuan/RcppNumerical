@@ -5,7 +5,3 @@ fastLR_ <- function(x, y, start, eps_f, eps_g, maxit) {
     .Call('RcppNumerical_fastLR_', PACKAGE = 'RcppNumerical', x, y, start, eps_f, eps_g, maxit)
 }
 
-integrate_rcpp_ <- function(f, args, lower, upper, subdiv, eps_abs, eps_rel, stop_on_error, rule) {
-    .Call('RcppNumerical_integrate_rcpp_', PACKAGE = 'RcppNumerical', f, args, lower, upper, subdiv, eps_abs, eps_rel, stop_on_error, rule)
-}
-

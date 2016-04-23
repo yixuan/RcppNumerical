@@ -1,4 +1,3 @@
 import(Rcpp)
-export(integrate_rcpp)
 export(fastLR)
 useDynLib(RcppNumerical)

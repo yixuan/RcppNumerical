@@ -23,22 +23,3 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// integrate_rcpp_
-Rcpp::List integrate_rcpp_(Rcpp::Function f, Rcpp::RObject args, double lower, double upper, int subdiv, double eps_abs, double eps_rel, bool stop_on_error, int rule);
-RcppExport SEXP RcppNumerical_integrate_rcpp_(SEXP fSEXP, SEXP argsSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP subdivSEXP, SEXP eps_absSEXP, SEXP eps_relSEXP, SEXP stop_on_errorSEXP, SEXP ruleSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< Rcpp::Function >::type f(fSEXP);
-    Rcpp::traits::input_parameter< Rcpp::RObject >::type args(argsSEXP);
-    Rcpp::traits::input_parameter< double >::type lower(lowerSEXP);
-    Rcpp::traits::input_parameter< double >::type upper(upperSEXP);
-    Rcpp::traits::input_parameter< int >::type subdiv(subdivSEXP);
-    Rcpp::traits::input_parameter< double >::type eps_abs(eps_absSEXP);
-    Rcpp::traits::input_parameter< double >::type eps_rel(eps_relSEXP);
-    Rcpp::traits::input_parameter< bool >::type stop_on_error(stop_on_errorSEXP);
-    Rcpp::traits::input_parameter< int >::type rule(ruleSEXP);
-    __result = Rcpp::wrap(integrate_rcpp_(f, args, lower, upper, subdiv, eps_abs, eps_rel, stop_on_error, rule));
-    return __result;
-END_RCPP
-}
