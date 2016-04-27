@@ -22,6 +22,8 @@ Description: A collection of open source libraries for numerical computing
     'Rcpp'.
 License: GPL (>= 2)
 Copyright: See file COPYRIGHTS
+URL: https://github.com/yixuan/RcppNumerical
+BugReports: https://github.com/yixuan/RcppNumerical/issues
 LazyData: TRUE
 Imports:
     Rcpp
