@@ -62,6 +62,7 @@ inline int optim_lbfgs(
     lbfgs_parameter_t param;
     cfun_lbfgs_parameter_init(&param);
     param.epsilon        = eps_g;
+    param.past           = 1;
     param.delta          = eps_f;
     param.max_iterations = maxit;
     param.max_linesearch = 100;
