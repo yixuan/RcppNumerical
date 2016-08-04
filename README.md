@@ -464,8 +464,8 @@ regression, which is a modified and more stable version of the code above.
 
 ```r
 system.time(res3 <- fastLR(x, y)$coefficients)
-##  user  system elapsed
-##  0.01    0.00    0.01
+##   user  system elapsed 
+##  0.009   0.000   0.008
 max(abs(res1 - res3))
-## [1] 1.977189e-07
+## [1] 7.066969e-06
 ```
