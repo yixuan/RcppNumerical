@@ -20,7 +20,8 @@ of the objective function (negative log likelihood) respectively.}
 
 \item{eps_g}{Iteration stops if
 \eqn{||g|| < \epsilon_g * \max(1, ||\beta||)}{||g|| < eps_g * max(1, ||beta||)},
-where \eqn{g} is the gradient.}
+where \eqn{\beta}{beta} is the current coefficient vector and
+\eqn{g} is the gradient.}
 
 \item{maxit}{Maximum number of iterations.}
 }
