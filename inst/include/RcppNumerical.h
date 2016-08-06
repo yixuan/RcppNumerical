@@ -16,7 +16,7 @@
 #include "integration/wrapper.h"
 
 // Optimization
-#include "optimization/lbfgs.h"
+#include "optimization/LBFGS.h"
 #include "optimization/wrapper.h"
 
 
