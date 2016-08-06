@@ -265,8 +265,7 @@ trueval - integrate_test2()$approximate
 
 Currently **RcppNumerical** contains the L-BFGS algorithm for unconstrained
 minimization problems based on the
-[libLBFGS](https://github.com/chokkan/liblbfgs) library
-developed by [Naoaki Okazaki](http://www.chokkan.org/).
+[LBFGS++](https://github.com/yixuan/LBFGSpp) library.
 
 Again, one needs to first define a functor to represent the multivariate
 function to be minimized.
@@ -306,9 +305,7 @@ inline int optim_lbfgs(
 - `maxit`: Maximum number of iterations.
 - `eps_f`: Algorithm stops if `|f_{k+1} - f_k| < eps_f * |f_k|`.
 - `eps_g`: Algorithm stops if `||g|| < eps_g * max(1, ||x||)`.
-- Return value: Error code. See
-[`lbfgs.h`](https://github.com/yixuan/RcppNumerical/blob/master/inst/include/optimization/lbfgs.h#L72)
-for explanation. Basically negative values indicate errors.
+- Return value: Error code. Negative values indicate errors.
 
 Below is an example that illustrates the optimization of the Rosenbrock function
 `f(x1, x2) = 100 * (x2 - x1^2)^2 + (1 - x1)^2`:
@@ -367,7 +364,7 @@ optim_test()
 ## [1] 0
 ```
 
-### A More Interesting Example
+### A More Practical Example
 
 It may be more meaningful to look at a real application of the **RcppNumerical**
 package. Below is an example to fit logistic regression using the L-BFGS

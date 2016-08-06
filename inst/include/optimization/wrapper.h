@@ -53,7 +53,7 @@ inline int optim_lbfgs(
     xx.noalias() = x;
 
     try {
-        solver.minimize(fun, xx);
+        solver.minimize(fun, xx, fx_opt);
     } catch(const std::exception& e) {
         status = -1;
         Rcpp::warning(e.what());
