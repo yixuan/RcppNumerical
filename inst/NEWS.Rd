@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for Package "RcppNumerical"}
 
+\section{Changes in RcppNumerical version 0.2-x}{
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Fixed an index-out-of-bound bug in one dimensional integration (#1),
+            thanks to Greg Finak.
+    }
+  }
+}
+
 \section{Changes in RcppNumerical version 0.2-0}{
   \subsection{NEW FEATURES}{
     \itemize{
