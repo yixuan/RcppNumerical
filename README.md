@@ -444,13 +444,13 @@ p = exp(xb) / (1 + exp(xb))
 y = rbinom(n, 1, p)
 
 system.time(res1 <- glm.fit(x, y, family = binomial())$coefficients)
-##  user  system elapsed
-## 0.339   0.004   0.342
+##   user  system elapsed 
+##  0.229   0.006   0.234
 system.time(res2 <- logistic_reg(x, y))
-##  user  system elapsed
-##  0.01    0.00    0.01
+##   user  system elapsed 
+##  0.005   0.000   0.006
 max(abs(res1 - res2))
-## [1] 1.977189e-07
+## [1] 0.0001873564
 ```
 
 It is much faster than the standard `glm.fit()` function in R! (Although
@@ -462,7 +462,7 @@ regression, which is a modified and more stable version of the code above.
 ```r
 system.time(res3 <- fastLR(x, y)$coefficients)
 ##   user  system elapsed 
-##  0.009   0.000   0.008
+##  0.007   0.001   0.008
 max(abs(res1 - res3))
 ## [1] 7.066969e-06
 ```
