@@ -1,8 +1,4 @@
-For the CppNumericalSolvers library
-
-  Copyright (c) 2014-2015 Patrick Wieschollek
-
-For the libLBFGS library
+For the libLBFGS library contained in RcppNumerical (< 0.3-0)
 
   Copyright (c) 1990, Jorge Nocedal
   Copyright (c) 2007-2010, Naoaki Okazaki
