@@ -8,42 +8,23 @@
 #define OPTIMIZATION_WRAPPER_H
 
 #include <RcppEigen.h>
-#include <R_ext/Rdynload.h>
-#include "lbfgs.h"
+#include "LBFGS.h"
 
 namespace Numer
 {
 
 
-// Function type for lbfgs()
-typedef int (*CFUN_lbfgs_TYPE)(
-    int n,
-    lbfgsfloatval_t *x,
-    lbfgsfloatval_t *ptr_fx,
-    lbfgs_evaluate_t proc_evaluate,
-    lbfgs_progress_t proc_progress,
-    void *instance,
-    lbfgs_parameter_t *param
-);
-// Function type for lbfgs_parameter_init()
-typedef void (*CFUN_lbfgs_parameter_init_TYPE)(lbfgs_parameter_t *param);
-
-
-// Evaluation function for lbfgs()
-inline lbfgsfloatval_t lbfgs_evalfun(
-    void *instance,
-    const lbfgsfloatval_t *x,
-    lbfgsfloatval_t *g,
-    const int n,
-    const lbfgsfloatval_t step
-    )
+class LBFGSFun
 {
-    MFuncGrad* f = (MFuncGrad*) instance;
-    const Eigen::Map<const Eigen::VectorXd> xval(x, n);
-    Eigen::Map<Eigen::VectorXd> grad(g, n);
-
-    return f->f_grad(xval, grad);
-}
+private:
+    MFuncGrad& f;
+public:
+    LBFGSFun(MFuncGrad& f_) : f(f_) {}
+    inline double operator()(const Eigen::VectorXd& x, Eigen::VectorXd& grad)
+    {
+        return f.f_grad(x, grad);
+    }
+};
 
 
 // [RcppNumerical API] Optimization using L-BFGS algorithm
@@ -52,25 +33,33 @@ inline int optim_lbfgs(
     const int maxit = 300, const double& eps_f = 1e-6, const double& eps_g = 1e-5
 )
 {
-    // Find functions
-    CFUN_lbfgs_TYPE
-        cfun_lbfgs = (CFUN_lbfgs_TYPE) R_GetCCallable("RcppNumerical", "lbfgs");
-    CFUN_lbfgs_parameter_init_TYPE
-        cfun_lbfgs_parameter_init = (CFUN_lbfgs_parameter_init_TYPE) R_GetCCallable("RcppNumerical", "lbfgs_parameter_init");
+    // Create functor
+    LBFGSFun fun(f);
 
     // Prepare parameters
-    lbfgs_parameter_t param;
-    cfun_lbfgs_parameter_init(&param);
+    LBFGSpp::LBFGSParam<double> param;
     param.epsilon        = eps_g;
     param.past           = 1;
     param.delta          = eps_f;
     param.max_iterations = maxit;
     param.max_linesearch = 100;
-    param.linesearch     = LBFGS_LINESEARCH_BACKTRACKING;
+    param.linesearch     = LBFGSpp::LBFGS_LINESEARCH_BACKTRACKING;
 
-    // Call main function
-    int status = cfun_lbfgs(x.size(), x.data(), &fx_opt,
-                            lbfgs_evalfun, NULL, &f, &param);
+    // Solver
+    LBFGSpp::LBFGSSolver<double> solver(param);
+
+    int status = 0;
+    Eigen::VectorXd xx(x.size());
+    xx.noalias() = x;
+
+    try {
+        solver.minimize(fun, xx, fx_opt);
+    } catch(const std::exception& e) {
+        status = -1;
+        Rcpp::warning(e.what());
+    }
+
+    x.noalias() = xx;
 
     return status;
 }

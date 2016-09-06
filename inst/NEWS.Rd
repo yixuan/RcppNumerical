@@ -2,6 +2,11 @@
 \title{News for Package "RcppNumerical"}
 
 \section{Changes in RcppNumerical version 0.2-x}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item Now using the LBFGS++ library for L-BFGS optimization.
+    }
+  }
   \subsection{BUG FIXES}{
     \itemize{
       \item Fixed an index-out-of-bound bug in one dimensional integration (#1),

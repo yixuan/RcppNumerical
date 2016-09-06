@@ -65,7 +65,7 @@ Rcpp::List fastLR_(Rcpp::NumericMatrix x, Rcpp::NumericVector y,
         Rcpp::warning("algorithm did not converge");
 
     return Rcpp::List::create(
-        Rcpp::Named("coefficients")      = beta,
+        Rcpp::Named("coefficients")      = b,
         Rcpp::Named("fitted.values")     = nll.current_p(),
         Rcpp::Named("linear.predictors") = nll.current_xb(),
         Rcpp::Named("loglikelihood")     = -fopt,

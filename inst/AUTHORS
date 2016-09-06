@@ -9,7 +9,7 @@ The files
   inst/include/optimization/lbfgs.h
   src/arithmetic_ansi.h
   src/lbfgs.c
-were copied from the libLBFGS library
+contained in RcppNumerical (< 0.3-0) were copied from the libLBFGS library
 (http://www.chokkan.org/software/liblbfgs/, MIT)
 written by Naoaki Okazaki.
 
