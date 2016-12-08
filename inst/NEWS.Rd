@@ -1,7 +1,7 @@
 \name{NEWS}
 \title{News for Package "RcppNumerical"}
 
-\section{Changes in RcppNumerical version 0.2-3}{
+\section{Changes in RcppNumerical version 0.3-0}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item Now using the LBFGS++ library for L-BFGS optimization.
