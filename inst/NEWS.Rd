@@ -12,7 +12,7 @@
     \itemize{
       \item Fixed an index-out-of-bound bug in one dimensional integration (#1),
             thanks to Greg Finak.
-      \item Added virtual destructors for \code{Func}, \code{MFunc}, and
+      \item Added virtual destructors for classes \code{Func}, \code{MFunc}, and
             \code{MFuncGrad}.
     }
   }
