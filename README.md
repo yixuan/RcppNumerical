@@ -290,7 +290,7 @@ typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
 The `f_grad()` member function returns the function value on vector `x`,
 and overwrites `grad` by the gradient.
 
-The wrapper function for **libLBFGS** is
+The wrapper function for **LBFGS++** is
 
 ```cpp
 inline int optim_lbfgs(
