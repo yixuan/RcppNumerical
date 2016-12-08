@@ -507,6 +507,9 @@ typedef unsigned int state_t;
 /* period parameter */
 #define MERSENNE_M 397
 
+/* RNGState is not used in Cuhre, and the unnamed union generates
+   compiler warnings. -- Yixuan */
+/*
 typedef struct {
   void (*getrandom)(struct _this *t, real *x);
   void (*skiprandom)(struct _this *t, cnumber n);
@@ -526,6 +529,7 @@ typedef struct {
     } ranlux;
   };
 } RNGState;
+ */
 
 
 /* We do not need to consider FORTRAN interface. -- Yixuan */
