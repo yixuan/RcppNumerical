@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for Package "RcppNumerical"}
 
+\section{Changes in RcppNumerical version 0.3-1}{
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Fixed a bug of name hiding in C++.
+    }
+  }
+}
+
 \section{Changes in RcppNumerical version 0.3-0}{
   \subsection{NEW FEATURES}{
     \itemize{
