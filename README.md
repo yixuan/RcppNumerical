@@ -45,11 +45,13 @@ class Func
 {
 public:
     virtual double operator()(const double& x) const = 0;
-    virtual void   operator()(double* x, const int n) const
+    virtual void eval(double* x, const int n) const
     {
         for(int i = 0; i < n; i++)
             x[i] = this->operator()(x[i]);
     }
+    
+    virtual ~Func() {}
 };
 ```
 
@@ -158,6 +160,8 @@ class MFunc
 {
 public:
     virtual double operator()(Constvec& x) = 0;
+    
+    virtual ~MFunc() {}
 };
 ```
 
@@ -276,6 +280,8 @@ class MFuncGrad
 {
 public:
     virtual double f_grad(Constvec& x, Refvec grad) = 0;
+    
+    virtual ~MFuncGrad() {}
 };
 ```
 

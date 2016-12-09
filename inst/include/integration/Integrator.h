@@ -552,7 +552,7 @@ private:
         }
 
         // Evaluate points.
-        f(points.data(), 2 * numKronrodRows - 1);
+        f.eval(points.data(), 2 * numKronrodRows - 1);
         Eigen::Array<Scalar, 2 * numKronrodRows - 1, 1>& fPoints = points;  // Alias of points
 
         const Scalar fCenter = fPoints[0];

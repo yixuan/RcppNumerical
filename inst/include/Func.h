@@ -23,14 +23,14 @@ typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
 class Func
 {
 public:
-    virtual ~Func() {}
-
     virtual double operator()(const double& x) const = 0;
-    virtual void   operator()(double* x, const int n) const
+    virtual void eval(double* x, const int n) const
     {
         for(int i = 0; i < n; i++)
             x[i] = this->operator()(x[i]);
     }
+
+    virtual ~Func() {}
 };
 
 
@@ -39,9 +39,9 @@ public:
 class MFunc
 {
 public:
-    virtual ~MFunc() {}
-
     virtual double operator()(Constvec& x) = 0;
+
+    virtual ~MFunc() {}
 };
 
 
@@ -49,9 +49,9 @@ public:
 class MFuncGrad
 {
 public:
-    virtual ~MFuncGrad() {}
-
     virtual double f_grad(Constvec& x, Refvec grad) = 0;
+
+    virtual ~MFuncGrad() {}
 };
 
 
