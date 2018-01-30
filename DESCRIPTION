@@ -27,6 +27,6 @@ BugReports: https://github.com/yixuan/RcppNumerical/issues
 LazyData: TRUE
 Imports: Rcpp
 LinkingTo: Rcpp, RcppEigen
-Suggests: knitr, prettydoc, mvtnorm
-VignetteBuilder: knitr
+Suggests: knitr, rmarkdown, prettydoc, mvtnorm
+VignetteBuilder: knitr, rmarkdown, prettydoc
 RoxygenNote: 5.0.1
