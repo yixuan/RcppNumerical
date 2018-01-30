@@ -5,6 +5,7 @@
   \subsection{BUG FIXES}{
     \itemize{
       \item Fixed a convergence test bug in LBFGS++.
+      \item Registered native routines per CRAN's policy.
     }
   }
 }

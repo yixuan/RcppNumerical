@@ -9,7 +9,7 @@ using namespace Rcpp;
 
 // fastLR_
 Rcpp::List fastLR_(Rcpp::NumericMatrix x, Rcpp::NumericVector y, Rcpp::NumericVector start, double eps_f, double eps_g, int maxit);
-RcppExport SEXP RcppNumerical_fastLR_(SEXP xSEXP, SEXP ySEXP, SEXP startSEXP, SEXP eps_fSEXP, SEXP eps_gSEXP, SEXP maxitSEXP) {
+RcppExport SEXP _RcppNumerical_fastLR_(SEXP xSEXP, SEXP ySEXP, SEXP startSEXP, SEXP eps_fSEXP, SEXP eps_gSEXP, SEXP maxitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;

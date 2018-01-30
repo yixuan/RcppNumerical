@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 fastLR_ <- function(x, y, start, eps_f, eps_g, maxit) {
-    .Call('RcppNumerical_fastLR_', PACKAGE = 'RcppNumerical', x, y, start, eps_f, eps_g, maxit)
+    .Call('_RcppNumerical_fastLR_', PACKAGE = 'RcppNumerical', x, y, start, eps_f, eps_g, maxit)
 }
 
