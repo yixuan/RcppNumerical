@@ -25,7 +25,7 @@
 ##' \item{loglikelihood}{The maximized log likelihood}
 ##' \item{converged}{Whether the optimization algorithm has converged}
 ##'
-##' @author Yixuan Qiu \url{http://statr.me}
+##' @author Yixuan Qiu \url{https://statr.me}
 ##'
 ##' @seealso \code{\link[stats]{glm.fit}()}
 ##'

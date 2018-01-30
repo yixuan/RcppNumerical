@@ -54,12 +54,11 @@ system.time(res1 <- glm.fit(x, y, family = binomial()))
 system.time(res2 <- fastLR(x, y))
 max(abs(res1$coefficients - res2$coefficients))
 }
-\author{
-Yixuan Qiu \url{http://statr.me}
-}
 \seealso{
 \code{\link[stats]{glm.fit}()}
 }
+\author{
+Yixuan Qiu \url{https://statr.me}
+}
 \keyword{models}
 \keyword{regression}
-

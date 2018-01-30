@@ -29,4 +29,4 @@ Imports: Rcpp
 LinkingTo: Rcpp, RcppEigen
 Suggests: knitr, rmarkdown, prettydoc, mvtnorm
 VignetteBuilder: knitr, rmarkdown, prettydoc
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
