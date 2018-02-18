@@ -2,7 +2,7 @@ Package: RcppNumerical
 Type: Package
 Title: 'Rcpp' Integration for Numerical Computing Libraries
 Version: 0.3-2
-Date: 2018-01-30
+Date: 2018-02-18
 Authors@R: c(
     person("Yixuan", "Qiu", , "yixuan.qiu@cos.name", c("aut", "cre")),
     person("Sreekumar", "Balan", role = "aut",
@@ -27,6 +27,6 @@ BugReports: https://github.com/yixuan/RcppNumerical/issues
 LazyData: TRUE
 Imports: Rcpp
 LinkingTo: Rcpp, RcppEigen
-Suggests: knitr, rmarkdown, prettydoc, mvtnorm
+Suggests: knitr, rmarkdown, prettydoc, mvtnorm, RcppEigen
 VignetteBuilder: knitr, rmarkdown, prettydoc
 RoxygenNote: 6.0.1
