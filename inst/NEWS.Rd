@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for Package "RcppNumerical"}
 
+\section{Changes in RcppNumerical version 0.3-3}{
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Updated LBFGS++ to the newest version.
+      \item Fixed the \code{VignetteBuilder} entry in the \code{DESCRIPTION} file
+            according to CRAN's policy
+    }
+  }
+}
+
 \section{Changes in RcppNumerical version 0.3-2}{
   \subsection{BUG FIXES}{
     \itemize{
