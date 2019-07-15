@@ -122,10 +122,9 @@ public:
 };
 
 // [[Rcpp::export]]
-Rcpp::List integrate_test()
+Rcpp::List integrate_test(const double& lower, const double& upper)
 {
     const double a = 3, b = 10;
-    const double lower = 0.3, upper = 0.8;
     const double true_val = R::pbeta(upper, a, b, 1, 0) -
                             R::pbeta(lower, a, b, 1, 0);
 
@@ -142,11 +141,17 @@ Rcpp::List integrate_test()
 }
 ```
 
-Runing the `integrate_test()` function in R gives
+Runing the `integrate_test()` function for some finite interval in R gives
 
 
 ```{r}
-integrate_test()
+integrate_test(0.3, 0.8)
+```
+
+Note that infinite intervals are also possible in the case of one-dimensional integration
+
+```{r}
+integrate_test(0.1, Inf)
 ```
 
 ### Multi-dimensional
