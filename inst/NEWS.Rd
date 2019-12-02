@@ -1,12 +1,22 @@
 \name{NEWS}
 \title{News for Package "RcppNumerical"}
 
+\section{Changes in RcppNumerical version 0.4-0}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item Added one-dimensional numerical integration on infinite intervals,
+            contributed by \href{https://github.com/rstub}{@rstub}
+            (\href{https://github.com/yixuan/RcppNumerical/pull/11}{#11}).
+    }
+  }
+}
+
 \section{Changes in RcppNumerical version 0.3-3}{
   \subsection{BUG FIXES}{
     \itemize{
       \item Updated LBFGS++ to the newest version.
       \item Fixed the \code{VignetteBuilder} entry in the \code{DESCRIPTION} file
-            according to CRAN's policy
+            according to CRAN's policy.
     }
   }
 }
@@ -57,7 +67,7 @@
   \subsection{NEW FEATURES}{
     \itemize{
       \item Initial release.
-      \item Provides C++ interface for one dimensional numerical integration
+      \item Provides C++ interface for one-dimensional numerical integration
             and L-BFGS optimization.
       \item R function \code{fastLR()} for fast logistic regression using
             L-BFGS.
