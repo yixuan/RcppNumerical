@@ -1,4 +1,4 @@
-## Rcpp Integration for Numerical Computing Libraries
+## Rcpp Integration for Numerical Computing Libraries <img src="https://statr.me/images/sticker-rcppnumerical.png" alt="RcppNumerical" height="150px" align="right" />
 
 - [Introduction](#introduction)
 - [Numerical Integration](#numerical-integration)
