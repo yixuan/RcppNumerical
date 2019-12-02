@@ -21,4 +21,7 @@ were modified from the Cuba library
 (http://www.feynarts.de/cuba/, LGPL-3)
 written by Thomas Hahn.
 
+The code for numerical integration on infinite intervals was contributed by
+Ralf Stubner <ralf.stubner@gmail.com>.
+
 Other part of this package was written by Yixuan Qiu.

@@ -4,7 +4,9 @@ Title: 'Rcpp' Integration for Numerical Computing Libraries
 Version: 0.3-3
 Date: 2019-06-10
 Authors@R: c(
-    person("Yixuan", "Qiu", , "yixuan.qiu@cos.name", c("aut", "cre")),
+    person("Yixuan", "Qiu", email = "yixuan.qiu@cos.name", role = c("aut", "cre")),
+    person("Ralf", "Stubner", email = "ralf.stubner@gmail.com", role = "ctb",
+           comment = "Integration on infinite intervals"),
     person("Sreekumar", "Balan", role = "aut",
            comment = "Numerical integration library"),
     person("Matt", "Beall", role = "aut",
