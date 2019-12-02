@@ -4,8 +4,14 @@
 \alias{fastLR}
 \title{Fast Logistic Regression Fitting Using L-BFGS Algorithm}
 \usage{
-fastLR(x, y, start = rep(0, ncol(x)), eps_f = 1e-08, eps_g = 1e-05,
-  maxit = 300)
+fastLR(
+  x,
+  y,
+  start = rep(0, ncol(x)),
+  eps_f = 1e-08,
+  eps_g = 1e-05,
+  maxit = 300
+)
 }
 \arguments{
 \item{x}{The model matrix.}
