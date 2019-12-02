@@ -1,8 +1,8 @@
 Package: RcppNumerical
 Type: Package
 Title: 'Rcpp' Integration for Numerical Computing Libraries
-Version: 0.3-3
-Date: 2019-06-10
+Version: 0.4-0
+Date: 2019-12-01
 Authors@R: c(
     person("Yixuan", "Qiu", email = "yixuan.qiu@cos.name", role = c("aut", "cre")),
     person("Ralf", "Stubner", email = "ralf.stubner@gmail.com", role = "ctb",
