@@ -15,14 +15,40 @@
 namespace Numer
 {
 
-//
-// [RcppNumerical API] 1-D numerical integration
-//
+namespace detail
+{
+template<class T>
+class transform_infinite: public Func
+{
+private:
+    T func;
+    double lower;
+    double upper;
+public:
+    transform_infinite(T _func, double _lower, double _upper) :
+    func(_func), lower(_lower), upper(_upper) {}
+
+    double operator() (const double& t) const
+    {
+        double x = (1 - t) / t;
+        bool upper_finite = (upper <  std::numeric_limits<double>::infinity());
+        bool lower_finite = (lower > -std::numeric_limits<double>::infinity());
+        if (upper_finite && lower_finite)
+            Rcpp::stop("At least on limit must be infinite.");
+        else if (lower_finite)
+            return func(lower + x) / pow(t, 2);
+        else if (upper_finite)
+            return func(upper - x) / pow(t, 2);
+        else
+            return (func(x) + func(-x)) / pow(t, 2);
+    }
+};
+
 inline double integrate(
-    const Func& f, const double& lower, const double& upper,
-    double& err_est, int& err_code,
-    const int subdiv = 100, const double& eps_abs = 1e-8, const double& eps_rel = 1e-6,
-    const Integrator<double>::QuadratureRule rule = Integrator<double>::GaussKronrod41
+        const Func& f, const double& lower, const double& upper,
+        double& err_est, int& err_code,
+        const int subdiv = 100, const double& eps_abs = 1e-8, const double& eps_rel = 1e-6,
+        const Integrator<double>::QuadratureRule rule = Integrator<double>::GaussKronrod41
 )
 {
     Integrator<double> intgr(subdiv);
@@ -31,6 +57,42 @@ inline double integrate(
     err_code = intgr.errorCode();
     return res;
 }
+} // namespace detail
+
+//
+// [RcppNumerical API] 1-D numerical integration
+//
+template<class T>
+double integrate(const T& f, double lower, double upper,
+                 double& err_est, int& err_code,
+                 const int subdiv = 100, const double& eps_abs = 1e-8, const double& eps_rel = 1e-6,
+                 const Integrator<double>::QuadratureRule rule = Integrator<double>::GaussKronrod41
+)
+{
+
+    if (upper == lower)
+    {
+        err_est = 0.0;
+        err_code = 0;
+        return 0.0;
+    }
+    if (std::abs(upper) < std::numeric_limits<double>::infinity() &&
+        std::abs(lower) < std::numeric_limits<double>::infinity())
+    {
+        return detail::integrate(f, lower, upper, err_est, err_code, subdiv, eps_abs, eps_rel, rule);
+    } else
+    {
+        double sign = 1.0;
+        if (upper < lower)
+        {
+            std::swap(upper, lower);
+            sign = -1.0;
+        }
+        detail::transform_infinite<T> g(f, lower, upper);
+        return sign * detail::integrate(g, 0.0, 1.0, err_est, err_code, subdiv, eps_abs, eps_rel, rule);
+    }
+}
+
 
 /****************************************************************************/
 
