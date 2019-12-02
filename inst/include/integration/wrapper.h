@@ -102,8 +102,11 @@ inline double integrate(
     return sign * res;
 }
 
-
 /****************************************************************************/
+
+// Internal implementation
+namespace detail
+{
 
 // Integrate R function
 class RFunc: public Func
@@ -139,6 +142,10 @@ public:
     }
 };
 
+} // namespace detail
+
+
+
 //
 // [RcppNumerical API] 1-D numerical integration for R function
 //
@@ -150,7 +157,7 @@ inline double integrate(
 )
 {
     Integrator<double> intgr(subdiv);
-    RFunc rfun(f, args);
+    detail::RFunc rfun(f, args);
     double res = intgr.quadratureAdaptive(rfun, lower, upper, eps_abs, eps_rel, rule);
     err_est = intgr.estimatedError();
     err_code = intgr.errorCode();
@@ -158,6 +165,10 @@ inline double integrate(
 }
 
 /****************************************************************************/
+
+// Internal implementation
+namespace detail
+{
 
 // Function type for Cuhre()
 typedef void (*CFUN_Cuhre_TYPE)(const int ndim, const int ncomp,
@@ -206,6 +217,10 @@ public:
 
 };
 
+} // namespace detail
+
+
+
 //
 // [RcppNumerical API] Multi-dimensional integration
 //
@@ -216,15 +231,15 @@ inline double integrate(
 )
 {
     // Find the Cuhre() function
-    CFUN_Cuhre_TYPE cfun_Cuhre = (CFUN_Cuhre_TYPE) R_GetCCallable("RcppNumerical", "Cuhre");
+    detail::CFUN_Cuhre_TYPE cfun_Cuhre = (detail::CFUN_Cuhre_TYPE) R_GetCCallable("RcppNumerical", "Cuhre");
 
-    MFuncWithBound fb(f, lower, upper);
+    detail::MFuncWithBound fb(f, lower, upper);
     int nregions;
     int neval;
     double integral;
     double prob;
 
-    cfun_Cuhre(lower.size(), 1, cuhre_integrand, &fb, 1,
+    cfun_Cuhre(lower.size(), 1, detail::cuhre_integrand, &fb, 1,
                eps_rel, eps_abs,
                4, 1, maxeval,
                0,
@@ -236,6 +251,7 @@ inline double integrate(
 
     return integral;
 }
+
 
 
 }  // namespace Numer
