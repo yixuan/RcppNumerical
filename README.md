@@ -174,7 +174,7 @@ typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
 
 (Basically you can treat `Constvec` as a `const Eigen::VectorXd`. Using
 `Eigen::Ref` is mainly to avoid memory copy. See the explanation
-[here](http://eigen.tuxfamily.org/dox/classEigen_1_1Ref.html).)
+[here](https://eigen.tuxfamily.org/dox/classEigen_1_1Ref.html).)
 
 The function provided by **RcppNumerical** for multi-dimensional
 integration is
