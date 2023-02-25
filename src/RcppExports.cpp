@@ -7,6 +7,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // fastLR_
 Rcpp::List fastLR_(Rcpp::NumericMatrix x, Rcpp::NumericVector y, Rcpp::NumericVector start, double eps_f, double eps_g, int maxit);
 RcppExport SEXP _RcppNumerical_fastLR_(SEXP xSEXP, SEXP ySEXP, SEXP startSEXP, SEXP eps_fSEXP, SEXP eps_gSEXP, SEXP maxitSEXP) {
