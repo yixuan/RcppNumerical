@@ -736,7 +736,11 @@ static void Sample(This *t, Region *region)
         errcoeff[2]*Max(Max(sum[1], sum[2]), sum[3]) );
   }
 
-  if( VERBOSE > 2 ) {
+  /* VERBOSE has been turned off in
+   inst/include/integration/wrapper.h:integrate()
+   with flags = 4, and CRAN does not allow using sprintf(),
+   so we simply comment out the printing code here. -- Yixuan */
+  /* if( VERBOSE > 2 ) {
     Vector(char, out, 64*NDIM + 128*NCOMP);
     char *oe = out;
     count comp;
@@ -753,5 +757,5 @@ static void Sample(This *t, Region *region)
 
     Print(out);
     MemFree(out);
-  }
+  } */
 }

@@ -42,7 +42,11 @@ static int Integrate(This *t, real *integral, real *err, real *prob)
   count comp, ipool, npool;
   int fail;
 
-  if( VERBOSE > 1 ) {
+  /* VERBOSE has been turned off in
+   inst/include/integration/wrapper.h:integrate()
+   with flags = 4, and CRAN does not allow using sprintf(),
+   so we simply comment out the printing code here. -- Yixuan */
+  /* if( VERBOSE > 1 ) {
     sprintf(out, "Cuhre input parameters:\n"
       "  ndim " COUNT "\n  ncomp " COUNT "\n"
       ML_NOT("  nvec " NUMBER "\n")
@@ -57,7 +61,7 @@ static int Integrate(This *t, real *integral, real *err, real *prob)
       t->key,
       t->statefile);
     Print(out);
-  }
+  } */
 
   if( BadComponent(t) ) return -2;
   if( BadDimension(t) ) return -1;
@@ -126,7 +130,11 @@ static int Integrate(This *t, real *integral, real *err, real *prob)
     Region *regionL, *regionR;
     Bounds *bL, *bR;
 
-    if( VERBOSE ) {
+    /* VERBOSE has been turned off in
+     inst/include/integration/wrapper.h:integrate()
+     with flags = 4, and CRAN does not allow using sprintf(),
+     so we simply comment out the printing code here. --Yixuan */
+    /* if( VERBOSE ) {
       char *oe = out + sprintf(out, "\n"
         "Iteration " COUNT ":  " NUMBER " integrand evaluations so far",
         t->nregions, t->neval);
@@ -136,7 +144,7 @@ static int Integrate(This *t, real *integral, real *err, real *prob)
           ++comp, SHOW(tot->avg), SHOW(tot->err),
           SHOW(tot->chisq), t->nregions - 1);
       Print(out);
-    }
+    } */
 
     maxratio = -INFTY;
     maxcomp = 0;
