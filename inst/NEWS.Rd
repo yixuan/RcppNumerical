@@ -1,6 +1,19 @@
 \name{NEWS}
 \title{News for Package "RcppNumerical"}
 
+\section{Changes in RcppNumerical version 0.5-0}{
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Removed the C function \code{sprintf()} calls according to CRAN's policy.
+    }
+  }
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item Updated LBFGS++ to v0.2.0.
+    }
+  }
+}
+
 \section{Changes in RcppNumerical version 0.4-0}{
   \subsection{NEW FEATURES}{
     \itemize{
