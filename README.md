@@ -149,8 +149,8 @@ integrate_test()
 #### Multi-dimensional
 
 Multi-dimensional integration in **RcppNumerical** is done by the
-[Cuba](http://www.feynarts.de/cuba/) library developed by
-[Thomas Hahn](http://wwwth.mpp.mpg.de/members/hahn/).
+[Cuba](https://feynarts.de/cuba/) library developed by
+[Thomas Hahn](https://wwwth.mpp.mpg.de/members/hahn/).
 
 To calculate the integration of a multivariate function, one needs to define
 a functor that inherits from the `MFunc` class:

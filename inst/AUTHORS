@@ -10,7 +10,7 @@ The files
   src/arithmetic_ansi.h
   src/lbfgs.c
 contained in RcppNumerical (< 0.3-0) were copied from the libLBFGS library
-(http://www.chokkan.org/software/liblbfgs/, MIT)
+(https://www.chokkan.org/software/liblbfgs/, MIT)
 written by Naoaki Okazaki.
 
 The files
@@ -18,7 +18,7 @@ The files
   src/Cuhre.c
   src/cuhre/*
 were modified from the Cuba library
-(http://www.feynarts.de/cuba/, LGPL-3)
+(https://feynarts.de/cuba/, LGPL-3)
 written by Thomas Hahn.
 
 The code for numerical integration on infinite intervals was contributed by
