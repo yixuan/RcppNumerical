@@ -31,4 +31,4 @@ Imports: Rcpp
 LinkingTo: Rcpp, RcppEigen
 Suggests: knitr, rmarkdown, prettydoc, mvtnorm, RcppEigen
 VignetteBuilder: knitr, rmarkdown
-RoxygenNote: 7.0.1
+RoxygenNote: 7.2.3
