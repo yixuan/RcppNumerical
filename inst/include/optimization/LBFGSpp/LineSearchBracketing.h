@@ -1,28 +1,29 @@
-// Copyright (C) 2016-2019 Yixuan Qiu <yixuan.qiu@cos.name>
+// Copyright (C) 2016-2022 Yixuan Qiu <yixuan.qiu@cos.name>
+// Copyright (C) 2016-2022 Dirk Toewe <DirkToewe@GoogleMail.com>
 // Under MIT license
 
-#ifndef LINE_SEARCH_BACKTRACKING_H
-#define LINE_SEARCH_BACKTRACKING_H
+#ifndef LBFGSPP_LINE_SEARCH_BRACKETING_H
+#define LBFGSPP_LINE_SEARCH_BRACKETING_H
 
 #include <Eigen/Core>
 #include <stdexcept>  // std::runtime_error
 
-
 namespace LBFGSpp {
 
-
 ///
-/// The backtracking line search algorithm for LBFGS. Mainly for internal use.
+/// The bracketing line search algorithm for L-BFGS. Mainly for internal use.
 ///
 template <typename Scalar>
-class LineSearchBacktracking
+class LineSearchBracketing
 {
 private:
     typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
 
 public:
     ///
-    /// Line search by backtracking.
+    /// Line search by bracketing. Similar to the backtracking line search
+    /// except that it actively maintains an upper and lower bound of the
+    /// current search range.
     ///
     /// \param f      A function object such that `f(x, grad)` returns the
     ///               objective function value at `x`, and overwrites `grad` with
@@ -43,75 +44,82 @@ public:
                            const Vector& drt, const Vector& xp,
                            const LBFGSParam<Scalar>& param)
     {
-        // Decreasing and increasing factors
-        const Scalar dec = 0.5;
-        const Scalar inc = 2.1;
-
         // Check the value of step
-        if(step <= Scalar(0))
-            std::invalid_argument("'step' must be positive");
+        if (step <= Scalar(0))
+            throw std::invalid_argument("'step' must be positive");
 
         // Save the function value at the current x
         const Scalar fx_init = fx;
         // Projection of gradient on the search direction
         const Scalar dg_init = grad.dot(drt);
         // Make sure d points to a descent direction
-        if(dg_init > 0)
-            std::logic_error("the moving direction increases the objective function value");
+        if (dg_init > 0)
+            throw std::logic_error("the moving direction increases the objective function value");
 
-        const Scalar dg_test = param.ftol * dg_init;
-        Scalar width;
+        const Scalar test_decr = param.ftol * dg_init;
+
+        // Upper and lower end of the current line search range
+        Scalar step_lo = 0,
+               step_hi = std::numeric_limits<Scalar>::infinity();
 
         int iter;
-        for(iter = 0; iter < param.max_linesearch; iter++)
+        for (iter = 0; iter < param.max_linesearch; iter++)
         {
             // x_{k+1} = x_k + step * d_k
             x.noalias() = xp + step * drt;
             // Evaluate this candidate
             fx = f(x, grad);
 
-            if(fx > fx_init + step * dg_test)
+            if (fx > fx_init + step * test_decr || (fx != fx))
             {
-                width = dec;
-            } else {
+                step_hi = step;
+            }
+            else
+            {
                 // Armijo condition is met
-                if(param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_ARMIJO)
+                if (param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_ARMIJO)
                     break;
 
                 const Scalar dg = grad.dot(drt);
-                if(dg < param.wolfe * dg_init)
+                if (dg < param.wolfe * dg_init)
                 {
-                    width = inc;
-                } else {
+                    step_lo = step;
+                }
+                else
+                {
                     // Regular Wolfe condition is met
-                    if(param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_WOLFE)
+                    if (param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_WOLFE)
                         break;
 
-                    if(dg > -param.wolfe * dg_init)
+                    if (dg > -param.wolfe * dg_init)
                     {
-                        width = dec;
-                    } else {
+                        step_hi = step;
+                    }
+                    else
+                    {
                         // Strong Wolfe condition is met
                         break;
                     }
                 }
             }
 
-            if(iter >= param.max_linesearch)
-                throw std::runtime_error("the line search routine reached the maximum number of iterations");
+            assert(step_lo < step_hi);
 
-            if(step < param.min_step)
+            if (step < param.min_step)
                 throw std::runtime_error("the line search step became smaller than the minimum value allowed");
 
-            if(step > param.max_step)
+            if (step > param.max_step)
                 throw std::runtime_error("the line search step became larger than the maximum value allowed");
 
-            step *= width;
+            // continue search in mid of current search range
+            step = std::isinf(step_hi) ? 2 * step : step_lo / 2 + step_hi / 2;
         }
+
+        if (iter >= param.max_linesearch)
+            throw std::runtime_error("the line search routine reached the maximum number of iterations");
     }
 };
 
+}  // namespace LBFGSpp
 
-} // namespace LBFGSpp
-
-#endif // LINE_SEARCH_BACKTRACKING_H
+#endif  // LBFGSPP_LINE_SEARCH_BRACKETING_H
