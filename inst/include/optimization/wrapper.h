@@ -39,11 +39,12 @@ inline int optim_lbfgs(
     // Prepare parameters
     LBFGSpp::LBFGSParam<double> param;
     param.epsilon        = eps_g;
+    param.epsilon_rel    = eps_g;
     param.past           = 1;
     param.delta          = eps_f;
     param.max_iterations = maxit;
     param.max_linesearch = 100;
-    param.linesearch     = LBFGSpp::LBFGS_LINESEARCH_BACKTRACKING;
+    param.linesearch     = LBFGSpp::LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE;
 
     // Solver
     LBFGSpp::LBFGSSolver<double> solver(param);
