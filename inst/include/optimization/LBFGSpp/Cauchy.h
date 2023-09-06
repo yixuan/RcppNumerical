@@ -1,4 +1,4 @@
-// Copyright (C) 2020-2022 Yixuan Qiu <yixuan.qiu@cos.name>
+// Copyright (C) 2020-2023 Yixuan Qiu <yixuan.qiu@cos.name>
 // Under MIT license
 
 #ifndef LBFGSPP_CAUCHY_H
@@ -32,8 +32,8 @@ template <typename Scalar>
 class ArgSort
 {
 private:
-    typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
-    typedef std::vector<int> IndexSet;
+    using Vector = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
+    using IndexSet = std::vector<int>;
 
     const Scalar* values;
 

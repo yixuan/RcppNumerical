@@ -1,4 +1,4 @@
-// Copyright (C) 2020-2022 Yixuan Qiu <yixuan.qiu@cos.name>
+// Copyright (C) 2020-2023 Yixuan Qiu <yixuan.qiu@cos.name>
 // Under MIT license
 
 #ifndef LBFGSPP_BK_LDLT_H
@@ -31,17 +31,17 @@ template <typename Scalar = double>
 class BKLDLT
 {
 private:
-    typedef Eigen::Index Index;
-    typedef Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Matrix;
-    typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
-    typedef Eigen::Map<Vector> MapVec;
-    typedef Eigen::Map<const Vector> MapConstVec;
+    using Index = Eigen::Index;
+    using Matrix = Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>;
+    using Vector = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
+    using MapVec = Eigen::Map<Vector>;
+    using MapConstVec = Eigen::Map<const Vector>;
 
-    typedef Eigen::Matrix<Index, Eigen::Dynamic, 1> IntVector;
-    typedef Eigen::Ref<Vector> GenericVector;
-    typedef Eigen::Ref<Matrix> GenericMatrix;
-    typedef const Eigen::Ref<const Matrix> ConstGenericMatrix;
-    typedef const Eigen::Ref<const Vector> ConstGenericVector;
+    using IntVector = Eigen::Matrix<Index, Eigen::Dynamic, 1>;
+    using GenericVector = Eigen::Ref<Vector>;
+    using GenericMatrix = Eigen::Ref<Matrix>;
+    using ConstGenericMatrix = const Eigen::Ref<const Matrix>;
+    using ConstGenericVector = const Eigen::Ref<const Vector>;
 
     Index m_n;
     Vector m_data;                                  // storage for a lower-triangular matrix
@@ -513,7 +513,7 @@ public:
         }
 
         // 5. x = P'y
-        for (Index i = npermc - 1; i >= 0; i--)
+        for (i = npermc - 1; i >= 0; i--)
         {
             std::swap(x[m_permc[i].first], x[m_permc[i].second]);
         }
