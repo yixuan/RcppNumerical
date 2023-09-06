@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for Package "RcppNumerical"}
 
+\section{Changes in RcppNumerical version 0.6-0}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item Updated LBFGS++ to v0.3.0.
+    }
+  }
+}
+
 \section{Changes in RcppNumerical version 0.5-0}{
   \subsection{BUG FIXES}{
     \itemize{
