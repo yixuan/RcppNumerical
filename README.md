@@ -52,7 +52,7 @@ public:
         for(int i = 0; i < n; i++)
             x[i] = this->operator()(x[i]);
     }
-    
+
     virtual ~Func() {}
 };
 ```
@@ -162,7 +162,7 @@ class MFunc
 {
 public:
     virtual double operator()(Constvec& x) = 0;
-    
+
     virtual ~MFunc() {}
 };
 ```
@@ -264,7 +264,7 @@ integrate_test2()
 ##
 ## $error_code
 ## [1] 0
-trueval - integrate_test2()$approximate
+as.numeric(trueval) - integrate_test2()$approximate
 ## [1] 2.893336e-11
 ```
 
@@ -284,7 +284,7 @@ class MFuncGrad
 {
 public:
     virtual double f_grad(Constvec& x, Refvec grad) = 0;
-    
+
     virtual ~MFuncGrad() {}
 };
 ```
