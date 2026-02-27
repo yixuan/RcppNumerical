@@ -176,7 +176,7 @@ enum { uninitialized = 0x61627563 };
 #define abort1(s, line) abort2(s, line)
 #define abort2(s, line) { perror(s " " __FILE__ "(" #line ")"); exit(1); }
 */
-#define Abort(s) { Rf_error("%s: %s(%d)", s, __FILE__, __LINE__); }
+#define Abort(s) { (Rf_error)("%s: %s(%d)", s, __FILE__, __LINE__); }
 
 #define Die(p) if( (p) == NULL ) Abort("malloc")
 
