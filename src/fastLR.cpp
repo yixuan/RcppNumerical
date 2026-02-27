@@ -2,8 +2,8 @@
 
 using namespace Numer;
 
-typedef Eigen::Map<Eigen::MatrixXd> MapMat;
-typedef Eigen::Map<Eigen::VectorXd> MapVec;
+using MapMat = Eigen::Map<Eigen::MatrixXd>;
+using MapVec = Eigen::Map<Eigen::VectorXd>;
 
 class LogisticReg: public MFuncGrad
 {

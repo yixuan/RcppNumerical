@@ -404,10 +404,10 @@ Calling the generated R function `integrate_md_inf_test()` gives
 integrate_md_inf_test()
 ## $semi_infinite
 ## [1] 1
-## 
+##
 ## $doubly_infinite
 ## [1] 1.772454
-## 
+##
 ## $all_infinite
 ## [1] 3.141542
 ```
