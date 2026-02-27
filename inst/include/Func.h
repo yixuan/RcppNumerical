@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Yixuan Qiu <yixuan.qiu@cos.name>
+// Copyright (C) 2016-2026 Yixuan Qiu <yixuan.qiu@cos.name>
 //
 // This Source Code Form is subject to the terms of the Mozilla
 // Public License v. 2.0. If a copy of the MPL was not distributed
@@ -15,8 +15,8 @@ namespace Numer
 
 
 // Reference to a vector
-typedef Eigen::Ref<Eigen::VectorXd>             Refvec;
-typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
+using Refvec = Eigen::Ref<Eigen::VectorXd>;
+using Constvec = const Eigen::Ref<const Eigen::VectorXd>;
 
 
 // For 1-D numerical integration
