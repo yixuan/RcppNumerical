@@ -1,5 +1,5 @@
-// Copyright (C) 2016-2023 Yixuan Qiu <yixuan.qiu@cos.name>
-// Copyright (C) 2016-2023 Dirk Toewe <DirkToewe@GoogleMail.com>
+// Copyright (C) 2016-2026 Yixuan Qiu <yixuan.qiu@cos.name>
+// Copyright (C) 2016-2026 Dirk Toewe <DirkToewe@GoogleMail.com>
 // Under MIT license
 
 #ifndef LBFGSPP_LINE_SEARCH_BRACKETING_H
@@ -7,6 +7,8 @@
 
 #include <Eigen/Core>
 #include <stdexcept>  // std::runtime_error
+#include <cmath>
+#include "Param.h"
 
 namespace LBFGSpp {
 
@@ -74,7 +76,7 @@ public:
             // Evaluate this candidate
             fx = f(x, grad);
 
-            if (fx > fx_init + step * test_decr || (fx != fx))
+            if (fx > fx_init + step * test_decr || (!std::isfinite(fx)))
             {
                 step_hi = step;
             }
@@ -108,7 +110,8 @@ public:
                 }
             }
 
-            assert(step_lo < step_hi);
+            if (step_lo > step_hi)
+                throw std::runtime_error("the lower bound of the bracketing interval becomes larger than the upper bound");
 
             if (step < param.min_step)
                 throw std::runtime_error("the line search step became smaller than the minimum value allowed");
