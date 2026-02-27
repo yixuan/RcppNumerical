@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for Package "RcppNumerical"}
 
+\section{Changes in RcppNumerical version 0.7-0}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item Added the \code{optim_lbfgsb()} function for box-constrained optimization.
+      \item Multi-dimensional integration now supports infinite limits in each dimension.
+      \item Updated LBFGS++ to v0.4.0.
+    }
+  }
+}
+
 \section{Changes in RcppNumerical version 0.6-0}{
   \subsection{NEW FEATURES}{
     \itemize{
