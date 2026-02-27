@@ -192,7 +192,8 @@ inline int cuhre_integrand(const int *ndim, const cubareal x[],
 }
 
 // Transform function according to integral limits
-class MFuncWithBound: public MFunc
+// Bounds need to be finite
+class MFuncWithBounds: public MFunc
 {
 private:
     const double    scalefac;
@@ -201,7 +202,7 @@ private:
     Eigen::VectorXd range;
     Eigen::VectorXd scalex;
 public:
-    MFuncWithBound(MFunc& f, Constvec& lower, Constvec& upper) :
+    MFuncWithBounds(MFunc& f, Constvec& lower, Constvec& upper) :
         scalefac((upper - lower).prod()),
         fun(f), lb(lower),
         range(upper - lower), scalex(lower.size())
@@ -217,6 +218,73 @@ public:
 
 };
 
+// Transform function with infinite bounds
+class MFuncWithInfiniteBounds: public MFunc
+{
+private:
+    MFunc& fun;
+    const Eigen::VectorXd lower;
+    const Eigen::VectorXd upper;
+    Eigen::Array<bool, Eigen::Dynamic, 1> lower_finite;
+    Eigen::Array<bool, Eigen::Dynamic, 1> upper_finite;
+
+public:
+    MFuncWithInfiniteBounds(MFunc& f, Constvec& lb, Constvec& ub) :
+        fun(f), lower(lb), upper(ub),
+        lower_finite(lb.size()), upper_finite(ub.size())
+    {
+        constexpr double Inf = std::numeric_limits<double>::infinity();
+        const int D = lb.size();
+        for(int i = 0; i < D; i++)
+        {
+            lower_finite[i] = (lb[i] > -Inf);
+            upper_finite[i] = (ub[i] < Inf);
+        }
+    }
+
+    inline double operator()(Constvec& t)
+    {
+        const int D = t.size();
+        Eigen::VectorXd x(D);
+        double jacobian = 1.0;
+
+        for(int i = 0; i < D; i++)
+        {
+            const double ti = t[i];
+
+            if (lower_finite[i] && upper_finite[i])
+            {
+                // Finite interval
+                x[i] = lower[i] + (upper[i] - lower[i]) * ti;
+            }
+            else if (lower_finite[i] && !upper_finite[i])
+            {
+                // Semi-infinite: [lower, +Inf)
+                const double transform = (1.0 - ti) / ti;
+                x[i] = lower[i] + transform;
+                jacobian *= 1.0 / (ti * ti);
+            }
+            else if (!lower_finite[i] && upper_finite[i])
+            {
+                // Semi-infinite: (-Inf, upper]
+                const double transform = (1.0 - ti) / ti;
+                x[i] = upper[i] - transform;
+                jacobian *= 1.0 / (ti * ti);
+            }
+            else
+            {
+                // Doubly-infinite: (-Inf, +Inf)
+                // Use tan transformation: x = tan(pi * (t - 0.5))
+                const double pi_t_minus_half = M_PI * (ti - 0.5);
+                x[i] = std::tan(pi_t_minus_half);
+                jacobian *= M_PI / (std::cos(pi_t_minus_half) * std::cos(pi_t_minus_half));
+            }
+        }
+
+        return fun(x) * jacobian;
+    }
+};
+
 } // namespace detail
 
 
@@ -230,24 +298,47 @@ inline double integrate(
     const int maxeval = 1000, const double& eps_abs = 1e-6, const double& eps_rel = 1e-6
 )
 {
+    // Check if any bounds are infinite
+    constexpr double Inf = std::numeric_limits<double>::infinity();
+    const bool has_infinite = (lower.array() == -Inf).any() || (upper.array() == Inf).any();
+
     // Find the Cuhre() function
     detail::CFUN_Cuhre_TYPE cfun_Cuhre = (detail::CFUN_Cuhre_TYPE) R_GetCCallable("RcppNumerical", "Cuhre");
 
-    detail::MFuncWithBound fb(f, lower, upper);
     int nregions;
     int neval;
     double integral;
     double prob;
 
-    cfun_Cuhre(lower.size(), 1, detail::cuhre_integrand, &fb, 1,
-               eps_rel, eps_abs,
-               4, 1, maxeval,
-               0,
-               NULL, NULL,
-               &nregions, &neval, &err_code, &integral, &err_est, &prob);
+    if (!has_infinite)
+    {
+        // Use existing MFuncWithBounds for finite case
+        detail::MFuncWithBounds fb(f, lower, upper);
 
-    integral *= fb.scale_factor();
-    err_est  *= std::abs(fb.scale_factor());
+        cfun_Cuhre(lower.size(), 1, detail::cuhre_integrand, &fb, 1,
+                   eps_rel, eps_abs,
+                   4, 1, maxeval,
+                   0,
+                   NULL, NULL,
+                   &nregions, &neval, &err_code, &integral, &err_est, &prob);
+
+        integral *= fb.scale_factor();
+        err_est  *= std::abs(fb.scale_factor());
+    }
+    else
+    {
+        // Use MFuncWithInfiniteBounds if infinite bounds exist
+        detail::MFuncWithInfiniteBounds fb(f, lower, upper);
+
+        cfun_Cuhre(lower.size(), 1, detail::cuhre_integrand, &fb, 1,
+                   eps_rel, eps_abs,
+                   4, 1, maxeval,
+                   0,
+                   NULL, NULL,
+                   &nregions, &neval, &err_code, &integral, &err_est, &prob);
+
+        // No scale factor needed - Jacobian is included in operator()
+    }
 
     return integral;
 }

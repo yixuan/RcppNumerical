@@ -4,6 +4,7 @@
 - [Numerical Integration](#numerical-integration)
   - [One-dimensional](#one-dimensional)
   - [Multi-dimensional](#multi-dimensional)
+  - [Handling Infinite Limits](#handling-infinite-limits)
 - [Numerical Optimization](#numerical-optimization)
   - [Unconstrained Minimization](#unconstrained-minimization)
   - [Box-constrained Minimization](#box-constrained-minimization)
@@ -111,7 +112,7 @@ public:
 };
 
 // [[Rcpp::export]]
-Rcpp::List integrate_test()
+Rcpp::List integrate_1d_test()
 {
     const double a = 3, b = 10;
     const double lower = 0.3, upper = 0.8;
@@ -131,10 +132,10 @@ Rcpp::List integrate_test()
 }
 ```
 
-Runing the `integrate_test()` function in R gives
+Runing the `integrate_1d_test()` function in R gives
 
 ```r
-integrate_test()
+integrate_1d_test()
 ## $true
 ## [1] 0.2528108
 ##
@@ -171,7 +172,7 @@ Here `Constvec` represents a read-only vector with the definition
 
 ```cpp
 // Constant reference to a vector
-typedef const Eigen::Ref<const Eigen::VectorXd> Constvec;
+using Constvec = const Eigen::Ref<const Eigen::VectorXd>;
 ```
 
 (Basically you can treat `Constvec` as a `const Eigen::VectorXd`. Using
@@ -232,7 +233,7 @@ public:
 };
 
 // [[Rcpp::export]]
-Rcpp::List integrate_test2()
+Rcpp::List integrate_md_test()
 {
     BiNormal f(0.5);  // rho = 0.5
     Eigen::VectorXd lower(2);
@@ -255,7 +256,7 @@ We can test the result in R:
 ```r
 library(mvtnorm)
 trueval = pmvnorm(c(-1, -1), c(1, 1), sigma = matrix(c(1, 0.5, 0.5, 1), 2))
-integrate_test2()
+integrate_md_test()
 ## $approximate
 ## [1] 0.4979718
 ##
@@ -264,8 +265,151 @@ integrate_test2()
 ##
 ## $error_code
 ## [1] 0
-as.numeric(trueval) - integrate_test2()$approximate
+as.numeric(trueval) - integrate_md_test()$approximate
 ## [1] 2.893336e-11
+```
+
+#### Handling Infinite Limits
+
+Infinite intagral limits are also supported. In the case of one-dimensional integration:
+
+```cpp
+// [[Rcpp::depends(RcppEigen)]]
+// [[Rcpp::depends(RcppNumerical)]]
+#include <RcppNumerical.h>
+using namespace Numer;
+
+class TestInf: public Func
+{
+public:
+    double operator()(const double& x) const
+    {
+        return x * x * R::dnorm(x, 0.0, 1.0, 0);
+    }
+};
+
+// [[Rcpp::export]]
+Rcpp::List integrate_1d_inf_test(const double& lower, const double& upper)
+{
+    TestInf f;
+    double err_est;
+    int err_code;
+    const double res = integrate(f, lower, upper, err_est, err_code);
+    return Rcpp::List::create(
+        Rcpp::Named("approximate") = res,
+        Rcpp::Named("error_estimate") = err_est,
+        Rcpp::Named("error_code") = err_code
+    );
+}
+```
+
+```r
+integrate(function(x) x^2 * dnorm(x), 0.5, Inf)  # integrate() in R
+## 0.4845702 with absolute error < 3e-08
+integrate_1d_inf_test(0.5, Inf)
+## $approximate
+## [1] 0.4845702
+##
+## $error_estimate
+## [1] 1.633995e-08
+##
+## $error_code
+## [1] 0
+```
+
+Similarly, for multi-dimensional integration, infinite limits are supported in each
+dimension by specifying `std::numeric_limits<double>::infinity()` or
+`-std::numeric_limits<double>::infinity()`:
+
+```cpp
+// [[Rcpp::depends(RcppEigen)]]
+// [[Rcpp::depends(RcppNumerical)]]
+#include <RcppNumerical.h>
+using namespace Numer;
+
+// Test 1: Semi-infinite [0, +Inf) x [0, 1]
+// Integrate exp(-x) over x in [0, +Inf) and y in [0, 1]
+// True value: 1.0
+class SemiInfiniteTest: public MFunc
+{
+public:
+    double operator()(Constvec& x)
+    {
+        return std::exp(-x[0]);
+    }
+};
+
+// Test 2: Doubly-infinite (-Inf, +Inf) x [0, 1]
+// Integrate exp(-x^2) over x in (-Inf, +Inf) and y in [0, 1]
+// True value: sqrt(pi)
+class DoublyInfiniteTest: public MFunc
+{
+public:
+    double operator()(Constvec& x)
+    {
+        return std::exp(-x[0] * x[0]);
+    }
+};
+
+// Test 3: All infinite bounds
+// Integrate exp(-x^2 - y^2) over (-Inf, +Inf) x (-Inf, +Inf)
+// Expected: pi
+class Gaussian2D: public MFunc
+{
+public:
+    double operator()(Constvec& x)
+    {
+        return std::exp(-x[0] * x[0] - x[1] * x[1]);
+    }
+};
+
+// [[Rcpp::export]]
+Rcpp::List integrate_md_inf_test()
+{
+    constexpr double Inf = std::numeric_limits<double>::infinity();
+    double err_est;
+    int err_code;
+
+    Eigen::VectorXd lower(2), upper(2);
+
+    // Test 1: Semi-infinite
+    lower[0] = 0.0; upper[0] = Inf;
+    lower[1] = 0.0; upper[1] = 1.0;
+    SemiInfiniteTest f1;
+    double res1 = integrate(f1, lower, upper, err_est, err_code);
+
+    // Test 2: Doubly-infinite
+    lower[0] = -Inf; upper[0] = Inf;
+    lower[1] = 0.0; upper[1] = 1.0;
+    DoublyInfiniteTest f2;
+    double res2 = integrate(f2, lower, upper, err_est, err_code);
+
+    // Test 3: All infinite
+    lower[0] = -Inf; upper[0] = Inf;
+    lower[1] = -Inf; upper[1] = Inf;
+    Gaussian2D f3;
+    double res3 = integrate(f3, lower, upper, err_est, err_code);
+
+    return Rcpp::List::create(
+        Rcpp::Named("semi_infinite") = res1,
+        Rcpp::Named("doubly_infinite") = res2,
+        Rcpp::Named("all_infinite") = res3
+    );
+}
+```
+
+Calling the generated R function `integrate_md_inf_test()` gives
+
+```r
+integrate_md_inf_test()
+## $semi_infinite
+## [1] 1
+## 
+## $doubly_infinite
+## [1] 1.772454
+## 
+## $all_infinite
+## [1] 3.141542
 ```
 
 ### Numerical Optimization
@@ -483,8 +627,8 @@ algorithm. It also demonstrates the performance of the library.
 
 using namespace Numer;
 
-typedef Eigen::Map<Eigen::MatrixXd> MapMat;
-typedef Eigen::Map<Eigen::VectorXd> MapVec;
+using MapMat = Eigen::Map<Eigen::MatrixXd>;
+using MapVec = Eigen::Map<Eigen::VectorXd>;
 
 class LogisticReg: public MFuncGrad
 {
