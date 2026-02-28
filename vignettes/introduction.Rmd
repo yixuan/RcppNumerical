@@ -294,7 +294,8 @@ Rcpp::List integrate_1d_inf_test(const double& lower, const double& upper)
 ```
 
 ```{r}
-integrate(function(x) x^2 * dnorm(x), 0.5, Inf)  # integrate() in R
+# integrate() in R
+integrate(function(x) x^2 * dnorm(x), 0.5, Inf)
 integrate_1d_inf_test(0.5, Inf)
 ```
 

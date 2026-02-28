@@ -304,7 +304,8 @@ Rcpp::List integrate_1d_inf_test(const double& lower, const double& upper)
 ```
 
 ```r
-integrate(function(x) x^2 * dnorm(x), 0.5, Inf)  # integrate() in R
+# integrate() in R
+integrate(function(x) x^2 * dnorm(x), 0.5, Inf)
 ## 0.4845702 with absolute error < 3e-08
 integrate_1d_inf_test(0.5, Inf)
 ## $approximate
@@ -510,10 +511,10 @@ Calling the generated R function `optim_test()` gives
 ```r
 optim_test()
 ## $xopt
-## [1] 1 1
+## [1] 0.9999683 0.9999354
 ##
 ## $fopt
-## [1] 3.12499e-15
+## [1] 1.150395e-09
 ##
 ## $status
 ## [1] 0
