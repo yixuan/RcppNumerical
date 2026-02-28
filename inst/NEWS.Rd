@@ -9,6 +9,13 @@
       \item Updated LBFGS++ to v0.4.0.
     }
   }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Replaced \code{Rf_error()} with \code{Rcpp::stop()} for better error handling,
+            thanks to \href{https://github.com/Enchufa2}{@Enchufa2}
+            (\href{https://github.com/yixuan/RcppNumerical/issues/14}{#14}).
+    }
+  }
 }
 
 \section{Changes in RcppNumerical version 0.6-0}{
@@ -20,14 +27,14 @@
 }
 
 \section{Changes in RcppNumerical version 0.5-0}{
-  \subsection{BUG FIXES}{
-    \itemize{
-      \item Removed the C function \code{sprintf()} calls according to CRAN's policy.
-    }
-  }
   \subsection{NEW FEATURES}{
     \itemize{
       \item Updated LBFGS++ to v0.2.0.
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Removed the C function \code{sprintf()} calls according to CRAN's policy.
     }
   }
 }

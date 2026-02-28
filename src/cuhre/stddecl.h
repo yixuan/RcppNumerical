@@ -44,7 +44,7 @@
 #endif
 #endif
 
-#include <R.h>  /* For error handling */
+#include "rcpp_stop.h"  /* For error handling -- Yixuan */
 
 /* Replace alloca by malloc. -- Yixuan */
 /*
@@ -170,13 +170,13 @@ enum { uninitialized = 0x61627563 };
 #define reallocset(p, n) (p = realloc(p, n))
 #endif
 
-/* Use R error handling. -- Yixuan */
+/* Use Rcpp error handling. -- Yixuan */
 /*
 #define Abort(s) abort1(s, __LINE__)
 #define abort1(s, line) abort2(s, line)
 #define abort2(s, line) { perror(s " " __FILE__ "(" #line ")"); exit(1); }
 */
-#define Abort(s) { (Rf_error)("%s: %s(%d)", s, __FILE__, __LINE__); }
+#define Abort(s) { rcpp_stop("%s: %s(%d)", s, __FILE__, __LINE__); }
 
 #define Die(p) if( (p) == NULL ) Abort("malloc")
 
